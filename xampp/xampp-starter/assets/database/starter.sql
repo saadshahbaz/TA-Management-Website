@@ -1,5 +1,20 @@
-PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
+PRAGMA foreign_keys=1;
+CREATE TABLE `User` (
+  `firstName` varchar(40) NOT NULL,
+  `lastName` varchar(40) NOT NULL,
+  `email` varchar(40) PRIMARY KEY NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `createdAt` varchar(100) NULL,
+  `updatedAt` varchar(100) NULL ,
+  `studentId` varchar(10)  NULL,
+  `username` varchar(40)  NULL
+);
+INSERT INTO User VALUES('Avinash','Bhat','avi@comp307.com','$2y$10$iqQA5ffMBUaBn0weeSM8.eKbEwhyGPOqV.DxKL.Ox2A1cq.0QfpuW','2022-10-11 04:42:50','2022-10-11 04:42:50','260845298','avinash.bhatt');
+INSERT INTO User VALUES('Jane','Doe','jane@comp307.com','$2y$10$Jq/Ab6L6yPpGbPmyt5tC1e5uO81fP4YBLAow4LHPRgVtLjU8rcK7C','2022-10-13 18:09:22','2022-10-13 18:09:22','260845299','jane.doe');
+INSERT INTO User VALUES('John','Doe','john@comp307.com','$2y$10$jAGY.QSoQwIoTH13LWUaKu3LdCoYOG2zey0pz4qJNtTdaF3G4Elqy','2022-10-09 16:46:43','2022-10-09 16:46:43','260845288','john.doe');
+INSERT INTO User VALUES('Joseph','Vybihal','joseph@comp307.com','$2y$10$MwaR9.9RqkKnjGsj6ELtAugh4EwRjh84esjwp6tf52XOTZpy6xxGu','2022-10-13 14:36:07','2022-10-13 14:36:07','260845289','joseph.vybihal');
+
 CREATE TABLE `Course` (
   `courseName` varchar(256) NOT NULL,
   `courseDesc` text NOT NULL,
@@ -23,44 +38,34 @@ CREATE TABLE `Professor` (
 );
 INSERT INTO Professor VALUES('joseph@comp307.com','Science','Computer Science','COMP 250');
 INSERT INTO Professor VALUES('jane@comp307.com','Science','Computer Science','COMP 402');
-CREATE TABLE `User` (
-  `firstName` varchar(40) NOT NULL,
-  `lastName` varchar(40) NOT NULL,
-  `email` varchar(40) PRIMARY KEY NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `createdAt` varchar(100) NULL,
-  `updatedAt` varchar(100) NULL ,
-  `studentId` varchar(10)  NULL,
-  `username` varchar(40)  NULL
-);
-INSERT INTO User VALUES('Avinash','Bhat','avi@comp307.com','$2y$10$iqQA5ffMBUaBn0weeSM8.eKbEwhyGPOqV.DxKL.Ox2A1cq.0QfpuW','2022-10-11 04:42:50','2022-10-11 04:42:50','260845298','avinash.bhatt');
-INSERT INTO User VALUES('Jane','Doe','jane@comp307.com','$2y$10$Jq/Ab6L6yPpGbPmyt5tC1e5uO81fP4YBLAow4LHPRgVtLjU8rcK7C','2022-10-13 18:09:22','2022-10-13 18:09:22','260845299','jane.doe');
-INSERT INTO User VALUES('John','Doe','john@comp307.com','$2y$10$jAGY.QSoQwIoTH13LWUaKu3LdCoYOG2zey0pz4qJNtTdaF3G4Elqy','2022-10-09 16:46:43','2022-10-09 16:46:43','260845288','john.doe');
-INSERT INTO User VALUES('Joseph','Vybihal','joseph@comp307.com','$2y$10$MwaR9.9RqkKnjGsj6ELtAugh4EwRjh84esjwp6tf52XOTZpy6xxGu','2022-10-13 14:36:07','2022-10-13 14:36:07','260845289','joseph.vybihal');
 
 CREATE TABLE `UserType` (
   `idx` int(11) NOT NULL,
-  `userType` varchar(9) PRIMARY KEY NOT NULL
+  `userType` varchar(9) NOT NULL,
+  PRIMARY KEY (`idx`, `userType`)
 );
 INSERT INTO UserType VALUES(1,'student');
 INSERT INTO UserType VALUES(2,'professor');
 INSERT INTO UserType VALUES(3,'ta');
 INSERT INTO UserType VALUES(4,'admin');
 INSERT INTO UserType VALUES(5,'sysop');
+
 CREATE TABLE `User_UserType` (
   `userId` varchar(40) NOT NULL,
   `userTypeId` int(11) NOT NULL,
+  PRIMARY KEY ('userId','userTypeId'),
   CONSTRAINT userusertype_ForeignKey
-   FOREIGN KEY (userId) REFERENCES `User` (`email`),
-   FOREIGN KEY (userTypeId) REFERENCES `UserType` (`idx`),
-   UNIQUE("userId","userTypeId")
+   FOREIGN KEY (`userId`) REFERENCES `User` (`email`) ON DELETE RESTRICT
 );
+
+
+
+
 CREATE TABLE `Student_Course` (
   `studentId` varchar(40) PRIMARY KEY NOT NULL,
   `courseId` varchar(10) NOT NULL,
   CONSTRAINT studentCourse_ForeignKey
-   FOREIGN KEY (studentId) REFERENCES `User` (`studentId`),
-   FOREIGN KEY (courseId) REFERENCES `Course` (`courseNumber`)
+   FOREIGN KEY (`courseId`) REFERENCES `Course` (`courseNumber`)
 );
 
 
@@ -68,13 +73,13 @@ CREATE TABLE `Prof_Info` (
   `email` varchar(40) NOT NULL,
   `faculty` varchar(40) NOT NULL,
   `department` varchar(40) NOT NULL,
-  UNIQUE("email","faculty", "department")
+  PRIMARY KEY ("email","faculty", "department")
 );
 
 CREATE TABLE `USER_ACCESS` (
   `email` varchar(40) NOT NULL,
   `userTypeId` varchar(5) NOT NULL,
-  UNIQUE("email","userTypeId")
+  PRIMARY KEY ("email","userTypeId")
 );
 
 CREATE TABLE `OfficeHours` (
@@ -88,7 +93,7 @@ CREATE TABLE `OfficeHours` (
   `location` varchar(100) NOT NULL,
   `responsibilities` varchar(500) NOT NULL,
   `position` varchar(100) NOT NULL,
-  UNIQUE("email","course","term","year","day","start_time", "end_time")
+  PRIMARY KEY ("email","course","term","year","day","start_time", "end_time")
 );
 
 CREATE TABLE `TA` (
@@ -99,10 +104,10 @@ CREATE TABLE `TA` (
   `course` varchar(30) NOT NULL,
   `term` varchar(30) NOT NULL,
   `years` varchar(4)NOT NULL,
+  PRIMARY KEY ("email","course", "term", "years"),
   CONSTRAINT TA_ForeignKey
-   FOREIGN KEY (email) REFERENCES `User` (`email`),
-   FOREIGN KEY (course) REFERENCES `Course` (`courseNumber`),
-   UNIQUE("email","course", "term", "years")
+   FOREIGN KEY (`email`) REFERENCES `User` (`email`) ON DELETE RESTRICT,
+   FOREIGN KEY (`course`) REFERENCES `Course` (`courseNumber`)
 );
 
 CREATE TABLE `TA_Ratings` (
@@ -113,7 +118,7 @@ CREATE TABLE `TA_Ratings` (
   `course` varchar(40) NOT NULL,
   `term` varchar(30) NOT NULL,
   `years` varchar(4) NOT NULL,
-  UNIQUE("student_email","ta_email", "course", "term", "years")
+  PRIMARY KEY ("student_email","ta_email", "course", "term", "years")
 );
 CREATE TABLE `TA_COHORT` (
   `term_year` varchar(30)  NOT NULL,
@@ -132,7 +137,7 @@ CREATE TABLE `TA_COHORT` (
   `course_applied` varchar(100) NOT NULL,
   `open_to_other_courses` varchar(3) NOT NULL,
   `Notes` varchar(500) NULL,
-  UNIQUE("email","student_id", "term_year")
+  PRIMARY KEY ("email","student_id", "term_year")
 
 );
 CREATE TABLE `Course_Quota` (
@@ -145,7 +150,7 @@ CREATE TABLE `Course_Quota` (
   `ta_quota` varchar(5) NOT NULL,
   `flagged` varchar(5) NOT NULL,
   `ratio` int NOT NULL,
-  UNIQUE("term_year","course_num", "course_type", "course_name")
+  PRIMARY KEY ("term_year","course_num", "course_type", "course_name")
 );
 CREATE TABLE `TA_WISHLIST` (
 `ta_email` varchar(30) NOT NULL,
@@ -153,7 +158,7 @@ CREATE TABLE `TA_WISHLIST` (
 `course_num` varchar(30) NOT NULL,
 `prof_name` varchar(100) NOT NULL,
 `ta_name` varchar(100) NOT NULL,
-UNIQUE("ta_email","term_year", "course_num", "prof_name", "ta_name")
+PRIMARY KEY ("ta_email","term_year", "course_num", "prof_name", "ta_name")
 );
 
 CREATE TABLE `TA_PERFORMANCE_LOG` (
@@ -196,7 +201,7 @@ CREATE TABLE `message` (
   `time` varchar(30) NOT NULL,
   `message` varchar(1000) NOT NULL,
   `tag` varchar(30),
-  UNIQUE("course","term","year","user","time"),
+  PRIMARY KEY ("course","term","year","user","time"),
   CONSTRAINT message_ForeignKey
    FOREIGN KEY (`course`, `term`, `year`) REFERENCES `Course` (`courseNumber`,`term`, `year`)
 );
@@ -207,7 +212,30 @@ INSERT INTO `User` (`firstName`, `lastName`, `email`, `password`, `createdAt`, `
 ('Doruk', 'Can', 'Doruk@mcgill.ca', '$2y$10$paS3gzcHk/IYfzyRaKqEk.rxUFIg1EaxY8cYczt3cUqVmcazSSivG', '2022-12-10 01:39:25', '2022-12-10 01:39:25', '', 'doruk.can'),
 ('Saumyaa', 'Verma', 'saumya.verma@mcgill.ca', '$2y$10$4WChTJyN.gsIXJfTEX02JeosHMKIBlUhTqnjUzULy.zTAIuaak7.a', '2022-12-13 20:40:51', '2022-12-13 20:40:51', '260845259', 'saumya.verma'),
 ('Sym', 'Piracha', 'sym.piracha@mcgill.ca', '$2y$10$5aicsVN7CiRJsKBCGaVhruQoUmR6p7oJMMJLnJrBe6c8dmQzFSXom', '2022-12-14 01:37:13', '2022-12-14 01:37:13', '260845256', 'sym.piracha'),
+('Saad', 'Shahbaz', 'saad.shahbaz@mcgill.ca', '$2y$10$Sw5w3wR5EEM4nQdFxcAFVutnGkHoLlyhv54MvSnn0BpvMX70XKtL6', '2022-12-14 01:37:14', '2022-12-14 01:37:14', '260845253', 'saad.shahbaz'),
+('Test', 'test', 'test.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '2022-12-04 05:48:16', '2022-12-04 05:48:16', '260845255', 'test.test'),
 ('Zahra', 'Hussain', 'zahra.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '2022-12-04 05:48:16', '2022-12-04 05:48:16', '260845254', 'zahra.hussain');
+
+
+INSERT INTO `User_UserType` (`userId`, `userTypeId`) VALUES
+('ali.malik@mcgill.ca', 1),
+('avi@comp307.com', 5),
+('Doruk@mcgill.ca', 2),
+('jane@comp307.com', 1),
+('jane@comp307.com', 3),
+('john@comp307.com', 5),
+('joseph@comp307.com', 2),
+('mathieu@comp307.com', 2),
+('saad.shahbaz@mcgill.ca', 3),
+('saad.shahbaz@mcgill.ca', 4),
+('saad.shahbaz@mcgill.ca', 5),
+('saumya.verma@mcgill.ca', 1),
+('saumya.verma@mcgill.ca', 3),
+('sym.piracha@mcgill.ca', 3),
+('zahra.hussain@mcgill.ca', 2),
+('zahra.hussain@mcgill.ca', 3),
+('zahra.hussain@mcgill.ca', 4);
+
 
 
 INSERT INTO `ed_stats` (`course_num`, `term_year`, `name`, `email`, `role`, `tutorial`, `sis_id`, `questions`, `posts`, `announcements`, `comments`, `answers`, `accepted_answers`, `hearts`, `endorsements`, `declines`, `declines_given`, `days_active`, `last_active`, `enrolled`) VALUES
@@ -217,6 +245,7 @@ INSERT INTO `ed_stats` (`course_num`, `term_year`, `name`, `email`, `role`, `tut
 
 
 INSERT INTO `TA` (`email`, `student_id`, `assigned_hours`, `ta_name`, `course`, `term`, `years`) VALUES
+('saad.shahbaz@mcgill.ca', '260845253', '90', 'Saad Shahbaz', 'COMP 250', 'Fall', '2022'),
 ('sym.piracha@mcgill.ca', '260845256', '90', 'Sym Piracha', 'COMP 250', 'Fall', '2022'),
 ('zahra.hussain@mcgill.ca', '260845254', '90', 'Zahra Hussain', 'COMP 250', 'Fall', '2022');
 
@@ -246,29 +275,14 @@ INSERT INTO `TA_WISHLIST` (`ta_email`, `term_year`, `course_num`, `prof_name`, `
 ('saad.shahbaz@mcgill.ca', 'Fall 2022', 'COMP 250', 'Joseph Vybihal', 'Saad Shahbaz'),
 ('zahra.hussain@mcgill.ca', 'Fall 2022', 'COMP 250', 'Saad Shahbaz', 'Zahra Hussain');
 
-INSERT INTO `User_UserType` (`userId`, `userTypeId`) VALUES
-('ali.malik@mcgill.ca', 1),
-('avi@comp307.com', 5),
-('Doruk@mcgill.ca', 2),
-('jane@comp307.com', 1),
-('jane@comp307.com', 3),
-('john@comp307.com', 5),
-('joseph@comp307.com', 2),
-('mathieu@comp307.com', 2),
-('saad.shahbaz@mcgill.ca', 3),
-('saad.shahbaz@mcgill.ca', 4),
-('saad.shahbaz@mcgill.ca', 5),
-('saumya.verma@mcgill.ca', 1),
-('saumya.verma@mcgill.ca', 3),
-('sym.piracha@mcgill.ca', 3),
-('zahra.hussain@mcgill.ca', 2),
-('zahra.hussain@mcgill.ca', 3),
-('zahra.hussain@mcgill.ca', 4);
+
 
 INSERT INTO `TA_PERFORMANCE_LOG` (`ta_email`, `term_year`, `course_num`, `ta_name`, `comment`, `time_stamp`) VALUES
 ('saad.shahbaz@mcgill.ca', 'Fall 2022', 'COMP 250', 'Saad Shahbaz', 'Checked alls assignments within deadline!', '2022-12-07 20:55:47'),
 ('saad.shahbaz@mcgill.ca', 'Fall 2022', 'COMP 250', 'Saad Shahbaz', 'Works Really Hard!', '2022-12-08 10:04:28'),
 ('saad.shahbaz@mcgill.ca', 'Fall 2022', 'COMP 250', 'Saad Shahbaz', 'Good TA!', '2022-12-11 23:40:16');
 COMMIT;
+
+PRAGMA foreign_keys=ON;
 
 
