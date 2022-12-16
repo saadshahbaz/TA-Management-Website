@@ -22,6 +22,30 @@ function checkUser()
     }
 }
 
+function getFliteredTa()
+{
+    const formData = new FormData(document.getElementById('get-ta-values'));
+
+    filter_value = formData.get('filterValue');
+    results = formData.get('search-value');
+    console.log(filter_value, results);
+    try {
+        const req = new XMLHttpRequest();
+        req.open("GET", `./getTAFiltered.php?filterValue=${filter_value}&results=${results}`, true);
+        req.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+        req.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                populateTaTable(req);
+            }
+        }
+        req.send(null);
+    }catch (exception)
+    {
+        alert ("Request failed. Please try again.");
+    }
+}
+
 
 function populateTaTable(request)
 {

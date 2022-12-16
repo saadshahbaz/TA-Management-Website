@@ -32,7 +32,7 @@ $result = $sql->execute();
 //$result = $sql->get_result();
 
 $sql2 = $conn->prepare(
-    'SELECT FORMAT(AVG(TA_Ratings.rating),2) as ta_rating_average FROM TA_Ratings WHERE TA_Ratings.ta_email = (SELECT DISTINCT email FROM TA where ta.email = :email)'
+    'SELECT printf("%.2f",AVG(TA_Ratings.rating)) as ta_rating_average FROM TA_Ratings WHERE TA_Ratings.ta_email = (SELECT DISTINCT email FROM TA where ta.email = :email)'
 );
 
 $sql2->bindValue(':email', $ta_email);
