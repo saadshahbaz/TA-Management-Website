@@ -5,11 +5,12 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
+// $conn = new mysqli($servername, $username, $password, $db);
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 // Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
 
 $target_dir = 'csvs/';
 $file = $_FILES['file']['name'];
@@ -46,9 +47,9 @@ while (($items = fgetcsv($ta_cohort)) != false) {
 
     echo '<p>' . $term_year . '</p>';
 
-    $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
+    // $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
     $sql = $conn->prepare(
-        'INSERT INTO TA_COHORT (term_year, ta_name, student_id, legal_name, email, grad_ugrad, supervisor_name, priority, hours_allocated, date_applied,location_assigned, phone, degree, course_applied, open_to_other_courses, Notes) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?,?, ?, ?, ?)'
+        'INSERT INTO TA_COHORT (term_year, ta_name, student_id, legal_name, email, grad_ugrad, supervisor_name, priority, hours_allocated, date_applied,location_assigned, phone, degree, course_applied, open_to_other_courses, Notes) VALUES (:term_year, :ta_name, :student_id, :legal_name, :email, :grad_ugrad, :supervisor_name, :priority, :hours_allocated, :date_applied,:location_assigned, :phone, :degree, :course_applied, :open_to_other_courses, :Notes)'
     );
     echo '<p>' . $term_year . '</p>';
     echo '<p>' . $ta_name . '</p>';
@@ -66,25 +67,42 @@ while (($items = fgetcsv($ta_cohort)) != false) {
     echo '<p>' . $open_to_other_courses . '</p>';
     echo '<p>' . $Notes . '</p>';
 
-    $sql->bind_param(
-        'ssssssssssssssss',
-        $term_year,
-        $ta_name,
-        $student_id,
-        $legal_name,
-        $email,
-        $grad_ugrad,
-        $supervisor_name,
-        $priority,
-        $hours,
-        $date_applied,
-        $location,
-        $phone,
-        $degree,
-        $course_applied,
-        $open_to_other_courses,
-        $Notes
-    );
+    $sql->bindParam(':term_year', $term_year);
+    $sql->bindParam(':ta_name', $ta_name);
+    $sql->bindParam(':student_id', $student_id);
+    $sql->bindParam(':legal_name', $legal_name);
+    $sql->bindParam(':email', $email);
+    $sql->bindParam(':grad_ugrad', $grad_ugrad);
+    $sql->bindParam(':supervisor_name', $supervisor_name);
+    $sql->bindParam(':priority', $priority);
+    $sql->bindParam(':hours_allocated', $hours);
+    $sql->bindParam(':date_applied', $date_applied);
+    $sql->bindParam(':location_assigned', $location);
+    $sql->bindParam(':phone', $phone);
+    $sql->bindParam(':degree', $degree);
+    $sql->bindParam(':course_applied', $course_applied);
+    $sql->bindParam(':open_to_other_courses', $open_to_other_courses);
+    $sql->bindParam(':Notes', $Notes);
+
+    // $sql->bind_param(
+    //     'ssssssssssssssss',
+    //     $term_year,
+    //     $ta_name,
+    //     $student_id,
+    //     $legal_name,
+    //     $email,
+    //     $grad_ugrad,
+    //     $supervisor_name,
+    //     $priority,
+    //     $hours,
+    //     $date_applied,
+    //     $location,
+    //     $phone,
+    //     $degree,
+    //     $course_applied,
+    //     $open_to_other_courses,
+    //     $Notes
+    // );
 
     $result = $sql->execute();
 }

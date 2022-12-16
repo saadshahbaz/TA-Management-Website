@@ -8,19 +8,18 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-
-// Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+$conn = new SQLite3(
+    '../assets/database/ta_management.db',
+    SQLITE3_OPEN_READWRITE
+);
 
 $email = $_POST['email'];
-$sql = $conn->prepare('SELECT * FROM User WHERE email = ?');
-$sql->bind_param('s', $email);
-$sql->execute();
-$result = $sql->get_result();
-$user = $result->fetch_assoc();
+$sql = $conn->prepare('SELECT * FROM User WHERE email = :email');
+$sql->bindValue(':email', $email);
+// $sql->bind_param('s', $email);
+$result = $sql->execute();
+// $result = $sql->get_result();
+$user = $result->fetchArray();
 $conn->close();
 
 if ($user) {

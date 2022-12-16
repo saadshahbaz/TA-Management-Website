@@ -5,20 +5,28 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
+// $conn = new mysqli($servername, $username, $password, $db);
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 $NotFound = 'No Entry Found!';
 
 // Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
+
+$result2 = $conn->query('SELECT * FROM TA');
+$number_of_rows = 0; //for now
+
+while ($row = $result2->fetchArray()) {
+    $number_of_rows += 1;
 }
 
 $sql = $conn->prepare('SELECT * FROM TA');
-$sql->execute();
-$result = $sql->get_result();
+$result = $sql->execute();
 
-echo '<div class="row">
-<div class="col"><table id="myTable">';
+// $result = $sql->get_result();
+
+echo '<table id="myTable">';
 echo '<tr>
 
     <th class="red-label">Email</th>
@@ -31,9 +39,9 @@ echo '<tr>
     <th class="red-label">Remove</th>
     </tr>';
 
-if (mysqli_num_rows($result) == 0) {
-    echo '</table></div></div>';
-    echo '<p style="display:flex; 
+if ($number_of_rows == 0) {
+    echo '</table>';
+    echo '<p style="display:flex;
                     justify-content:center;
                         align-item:center;
                         margin-top: 20px;
@@ -46,7 +54,7 @@ if (mysqli_num_rows($result) == 0) {
 
 $i = 1;
 
-while ($ta = $result->fetch_assoc()) {
+while ($ta = $result->fetchArray(SQLITE3_ASSOC)) {
     echo '<tr>
     
     <td>' .
@@ -67,7 +75,7 @@ while ($ta = $result->fetch_assoc()) {
         '</td>
     <td>' .
         $ta['years'] .
-        '   </td>
+        '</td>
     <td>' .
         $ta['assigned_hours'] .
         '</td>
@@ -80,7 +88,3 @@ while ($ta = $result->fetch_assoc()) {
 
     $i++;
 }
-
-echo '</table></div></div>';
-
-?>
