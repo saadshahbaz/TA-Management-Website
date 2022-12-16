@@ -1,4 +1,5 @@
 <?php
+//session_save_path('/home/2020/sshahb5/sessions');
 session_start();
 $servername = 'localhost'; // Change accordingly
 $username = 'root'; // Change accordingly
