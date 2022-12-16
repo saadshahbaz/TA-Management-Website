@@ -16,6 +16,9 @@ $conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 $email = $_POST['email'];
 $account_types = $_POST['accounttypes'];
 
+$sql2 = $conn->prepare('pragma foreign_keys=1');
+$sql2->execute();
+
 $sql = $conn->prepare('SELECT * FROM User WHERE email = :email');
 // $sql->bind_param('s', $email);
 $sql->bindValue(':email', $email);
