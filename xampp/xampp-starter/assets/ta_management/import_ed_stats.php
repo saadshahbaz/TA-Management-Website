@@ -5,11 +5,12 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-// Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// $conn = new mysqli($servername, $username, $password, $db);
+// // Check connection
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 
 $currentCourse = $_POST['course'];
 $curentTermYear = $_POST['term'];
@@ -58,8 +59,30 @@ while (($items = fgetcsv($ta_cohort)) != false) {
 
     $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
     $sql = $conn->prepare(
-        'INSERT INTO ed_stats (`course_num`, `term_year`,`name`, email, `role`, tutorial, sis_id, questions, posts, announcements, comments, answers, accepted_answers, hearts,endorsements, declines, declines_given, days_active, last_active, enrolled ) VALUES (?, ? , ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?)'
+        'INSERT INTO ed_stats (`course_num`, `term_year`,`name`, email, `role`, tutorial, sis_id, questions, posts, announcements, comments, answers, accepted_answers, hearts,endorsements, declines, declines_given, days_active, last_active, enrolled ) VALUES (:course_num, :term_year,:names, :email, :roles, :tutorial, :sis_id, :questions, :posts, :announcements, :comments, :answers, :accepted_answers, :hearts,:endorsements, :declines, :declines_given, :days_active, :last_active, :enrolled)'
     );
+
+    $sql->bindValue(':course_num', $course);
+    $sql->bindValue(':term_year', $term_year);
+    $sql->bindValue(':names', $name);
+    $sql->bindValue(':email', $email);
+    $sql->bindValue(':roles', $role);
+    $sql->bindValue(':tutorial', $tutorial);
+    $sql->bindValue(':sis_id', $sis_id);
+    $sql->bindValue(':questions', $questions);
+    $sql->bindValue(':posts', $posts);
+    $sql->bindValue(':announcements', $announcements);
+    $sql->bindValue(':comments', $comments);
+    $sql->bindValue(':answers', $answers);
+    $sql->bindValue(':accepted_answers', $accepted_answers);
+    $sql->bindValue(':hearts', $hearts);
+    $sql->bindValue(':endorsements', $endorsements);
+    $sql->bindValue(':declines', $decline);
+    $sql->bindValue(':declines_given', $declines_given);
+    $sql->bindValue(':days_active', $days_active);
+    $sql->bindValue(':last_active', $last_active);
+    $sql->bindValue(':enrolled', $enrolled);
+
     // echo '<p>' . $term_year . '</p>';
     // echo '<p>' . $ta_name . '</p>';
     // echo '<p>' . $student_id . '</p>';
@@ -76,29 +99,29 @@ while (($items = fgetcsv($ta_cohort)) != false) {
     // echo '<p>' . $open_to_other_courses . '</p>';
     // echo '<p>' . $Notes . '</p>';
 
-    $sql->bind_param(
-        'ssssssssssssssssssss',
-        $course,
-        $term_year,
-        $name,
-        $email,
-        $role,
-        $tutorial,
-        $sis_id,
-        $questions,
-        $posts,
-        $announcements,
-        $comments,
-        $answers,
-        $accepted_answers,
-        $hearts,
-        $endorsements,
-        $decline,
-        $declines_given,
-        $days_active,
-        $last_active,
-        $enrolled
-    );
+    // $sql->bind_param(
+    //     'ssssssssssssssssssss',
+    //     $course,
+    //     $term_year,
+    //     $name,
+    //     $email,
+    //     $role,
+    //     $tutorial,
+    //     $sis_id,
+    //     $questions,
+    //     $posts,
+    //     $announcements,
+    //     $comments,
+    //     $answers,
+    //     $accepted_answers,
+    //     $hearts,
+    //     $endorsements,
+    //     $decline,
+    //     $declines_given,
+    //     $days_active,
+    //     $last_active,
+    //     $enrolled
+    // );
 
     $result = $sql->execute();
 }

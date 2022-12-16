@@ -4,22 +4,24 @@ $username = 'root'; // Change accordingly
 $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
-$conn = new mysqli($servername, $username, $password, $db);
+// $conn = new mysqli($servername, $username, $password, $db);
 
-// Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// // Check connection
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
+
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 
 function getYear()
 {
     global $conn;
     $sql = $conn->prepare('SELECT DISTINCT years FROM TA ORDER BY years');
-    $sql->execute();
-    $result = $sql->get_result();
+    $result = $sql->execute();
+    // $result = $sql->get_result();
     echo '<option value="" selected disabled> Select a Year... </option>';
 
-    while ($ta = $result->fetch_assoc()) {
+    while ($ta = $result->fetchArray()) {
         echo '<option value="' .
             $ta['years'] .
             '">' .
@@ -33,14 +35,15 @@ function getTerm($year)
 {
     global $conn;
     $sql = $conn->prepare(
-        'SELECT DISTINCT term FROM TA where years = ? ORDER BY course'
+        'SELECT DISTINCT term FROM TA where years = :years ORDER BY course'
     );
-    $sql->bind_param('s', $year);
-    $sql->execute();
-    $result = $sql->get_result();
+    // $sql->bind_param('s', $year);
+    $sql->bindValue(':years', $year);
+    $result = $sql->execute();
+    // $result = $sql->get_result();
     echo '<option value="" selected disabled> Select a Term... </option>';
 
-    while ($ta = $result->fetch_assoc()) {
+    while ($ta = $result->fetchArray()) {
         // echo '<tr>' . $ta['email'] . '</td>'
         echo '<option value="' . $ta['term'] . '">' . $ta['term'] . '</option>';
     }
@@ -51,16 +54,20 @@ function getCourses($term, $year)
 {
     global $conn;
     $sql = $conn->prepare(
-        'SELECT DISTINCT course FROM TA where term = ? AND years = ? ORDER BY course'
+        'SELECT DISTINCT course FROM TA where term = :term AND years = :years ORDER BY course'
     );
     echo '<p>Term: ' . $term . '</p>';
     echo '<p>Year: ' . $year . '</p>';
-    $sql->bind_param('ss', $term, $year);
-    $sql->execute();
-    $result = $sql->get_result();
+
+    $sql->bindValue(':years', $year);
+    $sql->bindValue(':term', $term);
+
+    // $sql->bind_param('ss', $term, $year);
+    $result = $sql->execute();
+    // $result = $sql->get_result();
     echo '<option value="" selected disabled> Select a Course... </option>';
 
-    while ($ta = $result->fetch_assoc()) {
+    while ($ta = $result->fetchArray()) {
         // echo '<tr>' . $ta['email'] . '</td>'
         echo '<option value="' .
             $ta['course'] .
@@ -75,19 +82,24 @@ function getTAs($term, $year, $course)
 {
     global $conn;
     $sql = $conn->prepare(
-        'SELECT DISTINCT email FROM TA where term = ? AND years = ? AND course = ? ORDER BY course'
+        'SELECT DISTINCT email FROM TA where term = :term AND years = :years AND course = :course ORDER BY course'
     );
-    $sql->bind_param('sss', $term, $year, $course);
-    $sql->execute();
-    $result = $sql->get_result();
+    $sql->bindValue(':years', $year);
+    $sql->bindValue(':term', $term);
+    $sql->bindValue(':course', $course);
+
+    // $sql->bind_param('sss', $term, $year, $course);
+    $result = $sql->execute();
+    // $result = $sql->get_result();
     echo '<option value="" selected disabled> Select a TA... </option>';
 
-    while ($ta = $result->fetch_assoc()) {
-        $query = $conn->prepare('SELECT * FROM User WHERE email = ?');
-        $query->bind_param('s', $ta['email']);
-        $query->execute();
-        $res = $query->get_result();
-        $user = $res->fetch_assoc();
+    while ($ta = $result->fetchArray()) {
+        $query = $conn->prepare('SELECT * FROM User WHERE email = :email');
+        $query->bindValue(':email', $ta['email']);
+        // $query->bind_param('s', $ta['email']);
+        $res = $query->execute();
+        // $res = $query->get_result();
+        $user = $res->fetchArray();
         echo '<option value="' .
             $ta['email'] .
             '">' .

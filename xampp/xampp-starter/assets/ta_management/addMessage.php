@@ -5,11 +5,13 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-// Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// $conn = new mysqli($servername, $username, $password, $db);
+// // Check connection
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
+
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 session_start();
 $email = $_SESSION['email'];
 $course = $_POST['course'];
@@ -21,19 +23,26 @@ $tag = $_POST['tag'];
 echo $tag;
 
 $sql = $conn->prepare(
-    'INSERT INTO message (user, course, term, year, time, message, tag) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO message (user, course, term, year, time, message, tag) VALUES (:user, :course, :term, :years, :tims, :messages, :tag)'
+);
+// $sql->bind_param(
+//     'sssssss',
+//     $email,
+//     $course,
+//     $term,
+//     $year,
+//     $time,
+//     $message,
+//     $tag
+// );
+$sql->bindValue(':user', $email);
+$sql->bindValue(':course', $course);
+$sql->bindValue(':term', $term);
+$sql->bindValue(':years', $year);
+$sql->bindValue(':tims', $time);
+$sql->bindValue(':messages', $message);
+$sql->bindValue(':tag', $tag);
 
-);
-$sql->bind_param(
-    'sssssss',
-    $email,
-    $course,
-    $term,
-    $year,
-    $time,
-    $message,
-    $tag
-);
 $result = $sql->execute();
 $conn->close();
 // }

@@ -5,20 +5,22 @@ $username = 'root'; // Change accordingly
 $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
-$conn = new mysqli($servername, $username, $password, $db);
+// $conn = new mysqli($servername, $username, $password, $db);
 
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
+
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 
 function getYears()
 {
     global $conn;
     $sql = $conn->prepare('SELECT DISTINCT year FROM Course ORDER BY year');
-    $sql->execute();
-    $result = $sql->get_result();
+    $result = $sql->execute();
+    //$result = $sql->get_result();
     echo '<option value="" selected disabled> Select a Year... </option>';
-    while ($ta = $result->fetch_assoc()) {
+    while ($ta = $result->fetchArray()) {
         echo $ta;
         echo '<option value="' . $ta['year'] . '">' . $ta['year'] . '</option>';
     }
@@ -29,9 +31,7 @@ function getSemesters()
 {
     global $conn;
 
-    
-    echo 
-    '<option value="" selected disabled> Select a Term... </option>
+    echo '<option value="" selected disabled> Select a Term... </option>
     <option value="Fall" id="semester">Fall</option>
     <option value="Winter" id="semester">Winter</option>';
     $conn->close();
@@ -41,15 +41,17 @@ function getCourses($year, $term)
 {
     global $conn;
     $sql = $conn->prepare(
-        'SELECT DISTINCT courseNumber FROM Course where year = ? AND term = ? ORDER BY courseNumber'
+        'SELECT DISTINCT courseNumber FROM Course where year = :years AND term = :term ORDER BY courseNumber'
     );
-    $sql->bind_param('ss', $year, $term);
-    $sql->execute();
-    $result = $sql->get_result();
+    // $sql->bind_param('ss', $year, $term);
+    $sql->bindValue(':years', $year);
+    $sql->bindValue(':term', $term);
+    $result = $sql->execute();
+    //$result = $sql->get_result();
     //$courses = $result->fetch_assoc();
     echo '<option value="" selected disabled> Select a Course... </option>';
 
-    while ($ta = $result->fetch_assoc()) {
+    while ($ta = $result->fetchArray()) {
         echo $ta;
         echo '<option value="' .
             $ta['courseNumber'] .

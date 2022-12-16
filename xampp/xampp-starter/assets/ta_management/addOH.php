@@ -5,11 +5,13 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-// Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// $conn = new mysqli($servername, $username, $password, $db);
+// // Check connection
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
+
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 
 $email = $_POST['email'];
 $location = $_POST['location'];
@@ -32,34 +34,41 @@ echo $year;
 echo $position;
 echo $responsibilities;
 
-
-
-
-$sql = $conn->prepare('SELECT * FROM TA WHERE email = ?');
-$sql->bind_param('s', $email);
-$sql->execute();
-$result = $sql->get_result();
-$user = $result->fetch_assoc();
-
+$sql = $conn->prepare('SELECT * FROM TA WHERE email = :email');
+// $sql->bind_param('s', $email);
+$sql->bindValue(':email', $email);
+$result = $sql->execute();
+//$result = $sql->get_result();
+$user = $result->fetchArray();
 
 $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
 $sql = $conn->prepare(
-    'INSERT INTO OfficeHours (email, location, day, start_time, end_time, course, term, year, position, responsibilities) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO OfficeHours (email, location, day, start_time, end_time, course, term, year, position, responsibilities) VALUES (:email, :locations, :dayss, :start_time, :end_time, :courseNumber, :term, :year, :position, :responsibilities)'
+);
+// $sql->bind_param(
+//     'ssssssssss',
+//     $email,
+//     $location,
+//     $day,
+//     $start_time,
+//     $end_time,
+//     $courseNumber,
+//     $term,
+//     $year,
+//     $position,
+//     $responsibilities
+// );
+$sql->bindValue(':email', $email);
+$sql->bindValue(':locations', $location);
+$sql->bindValue(':dayss', $day);
+$sql->bindValue(':start_time', $start_time);
+$sql->bindValue(':end_time', $end_time);
+$sql->bindValue(':courseNumber', $courseNumber);
+$sql->bindValue(':term', $term);
+$sql->bindValue(':year', $year);
+$sql->bindValue(':position', $position);
+$sql->bindValue(':responsibilities', $responsibilities);
 
-);
-$sql->bind_param(
-    'ssssssssss',
-    $email,
-    $location,
-    $day,
-    $start_time,
-    $end_time,
-    $courseNumber,
-    $term,
-    $year,
-    $position,
-    $responsibilities
-);
 $result = $sql->execute();
 $conn->close();
 // }

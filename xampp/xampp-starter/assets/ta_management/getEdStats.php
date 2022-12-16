@@ -5,19 +5,19 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
+// $conn = new mysqli($servername, $username, $password, $db);
 $NotFound = 'No Entry Found!';
-
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 // Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
 
 $sql = $conn->prepare(
     'SELECT DISTINCT term_year, email, `name`, `role`, sis_id,enrolled FROM ed_stats'
 );
-$sql->execute();
-$result = $sql->get_result();
+$result = $sql->execute();
+// $result = $sql->get_result();
 
 echo '<table id="myTable">';
 echo '<tr>
@@ -29,22 +29,23 @@ echo '<tr>
     <th class="red-label">Enrolled</th>
     </tr>';
 
-if (mysqli_num_rows($result) == 0) {
-    echo '</table>';
-    echo '<p style="display:flex; 
-                    justify-content:center;
-                        align-item:center;
-                        margin-top: 20px;
-                        color: rgb(167, 37, 48);
-                        font-weight: bold;
-                        font-size: 18px;">' .
-        $NotFound .
-        '</p>';
-}
+// if (mysqli_num_rows($result) == 0) {
+//     echo '</table>';
+//     echo '<p style="display:flex;
+//                     justify-content:center;
+//                         align-item:center;
+//                         margin-top: 20px;
+//                         color: rgb(167, 37, 48);
+//                         font-weight: bold;
+//                         font-size: 18px;">' .
+//         $NotFound .
+//         '</p>';
+// }
 
-$i = 1;
+$count = 0;
 
-while ($ta = $result->fetch_assoc()) {
+while ($ta = $result->fetchArray()) {
+    $count++;
     echo '<tr>
     
     <td>' .
@@ -70,11 +71,25 @@ while ($ta = $result->fetch_assoc()) {
 </tr>';
 }
 
-$sql2 = $conn->prepare('SELECT * FROM ed_stats');
-$sql2->execute();
-$result2 = $sql2->get_result();
+if ($count == 0) {
+    echo '</table>';
+    echo '<p style="display:flex; 
+                    justify-content:center;
+                        align-item:center;
+                        margin-top: 20px;
+                        color: rgb(167, 37, 48);
+                        font-weight: bold;
+                        font-size: 18px;">' .
+        $NotFound .
+        '</p>';
+} else {
+    echo '</table> <br /> <br />';
+}
 
-echo '</table> <br /> <br />';
+$sql2 = $conn->prepare('SELECT * FROM ed_stats');
+$result2 = $sql2->execute();
+// $result2 = $sql2->get_result();
+
 echo '<table id="myTable">';
 echo '<tr>
 
@@ -93,22 +108,10 @@ echo '<tr>
     <th class="red-label">Days Active</th>
     </tr>';
 
-if (mysqli_num_rows($result2) == 0) {
-    echo '</table>';
-    echo '<p style="display:flex; 
-                    justify-content:center;
-                        align-item:center;
-                        margin-top: 20px;
-                        color: rgb(167, 37, 48);
-                        font-weight: bold;
-                        font-size: 18px;">' .
-        $NotFound .
-        '</p>';
-}
+$i = 0;
 
-$i = 1;
-
-while ($ta2 = $result2->fetch_assoc()) {
+while ($ta2 = $result2->fetchArray()) {
+    $i++;
     echo '<tr>
     
     <td>' .
@@ -154,6 +157,20 @@ while ($ta2 = $result2->fetch_assoc()) {
 
 </tr>';
 }
-echo '</table> <br /> <br />';
+
+if ($i == 0) {
+    echo '</table>';
+    echo '<p style="display:flex; 
+                    justify-content:center;
+                        align-item:center;
+                        margin-top: 20px;
+                        color: rgb(167, 37, 48);
+                        font-weight: bold;
+                        font-size: 18px;">' .
+        $NotFound .
+        '</p>';
+} else {
+    echo '</table> <br /> <br />';
+}
 
 ?>

@@ -5,11 +5,12 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-// Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// $conn = new mysqli($servername, $username, $password, $db);
+// // Check connection
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 
 $email = $_POST['email'];
 $location = $_POST['location'];
@@ -34,21 +35,32 @@ echo $position;
 echo $responsibilities;
 
 $sql = $conn->prepare(
-    'DELETE FROM OfficeHours WHERE email = ? AND location = ? AND day = ? AND start_time = ? AND end_time = ? AND course = ? AND term = ? AND year = ? AND position = ? AND responsibilities = ?'
+    'DELETE FROM OfficeHours WHERE email = :email AND location = :locations AND day = :dayss AND start_time = :start_time AND end_time = :end_time AND course = :course AND term = :term AND year = :years AND position = :position AND responsibilities = :responsibilities'
 );
-$sql->bind_param(
-    'ssssssssss',
-    $email,
-    $location,
-    $day,
-    $start_time,
-    $end_time,
-    $courseNumber,
-    $term,
-    $year,
-    $position,
-    $responsibilities
-);
+// $sql->bind_param(
+//     'ssssssssss',
+//     $email,
+//     $location,
+//     $day,
+//     $start_time,
+//     $end_time,
+//     $courseNumber,
+//     $term,
+//     $year,
+//     $position,
+//     $responsibilities
+// );
+$sql->bindValue(':email', $email);
+$sql->bindValue(':locations', $location);
+$sql->bindValue(':dayss', $day);
+$sql->bindValue(':start_time', $start_time);
+$sql->bindValue(':end_time', $end_time);
+$sql->bindValue(':course', $courseNumber);
+$sql->bindValue(':term', $term);
+$sql->bindValue(':years', $year);
+$sql->bindValue(':position', $position);
+$sql->bindValue(':responsibilities', $responsibilities);
+
 $result = $sql->execute();
 $conn->close();
 

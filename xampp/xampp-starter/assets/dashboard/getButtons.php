@@ -7,28 +7,27 @@ $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-$sql = $conn->prepare('SELECT * FROM User WHERE email = ?');
-$sql->bind_param('s', $_SESSION['email']);
-$sql->execute();
-$result = $sql->get_result();
-$user = $result->fetch_assoc();
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
+
+$sql = $conn->prepare('SELECT * FROM User WHERE email = :email');
+$sql->bindValue(':email', $_SESSION['email']);
+// $sql->bind_param('s', $_SESSION['email']);
+$result = $sql->execute();
+// $result = $sql->get_result();
+$user = $result->fetchArray();
 
 $sql = $conn->prepare("SELECT UserType.userType FROM UserType INNER JOIN User_UserType 
-            ON UserType.idx=User_UserType.userTypeId WHERE User_UserType.userId = ?");
-$sql->bind_param('s', $_SESSION['email']);
-$sql->execute();
-$result = $sql->get_result();
-$userTypes = $result->fetch_all();
-$conn->close();
+            ON UserType.idx=User_UserType.userTypeId WHERE User_UserType.userId = :email");
+// $sql->bind_param('s', $_SESSION['email']);
+$sql->bindValue(':email', $user['email']);
+$result = $sql->execute();
+// $result = $sql->get_result();
+$userArray = [];
+while ($userTypes = $result->fetchArray()) {
+    $userArray[] = $userTypes['userType'];
+}
 
 $username = $user['firstName'] . ' ' . $user['lastName'];
-
-$userArray = [];
-
-foreach ($userTypes as $userType) {
-    array_push($userArray, $userType[0]);
-}
 
 echo '<br /> <br /> <br /> <br /> <br />';
 

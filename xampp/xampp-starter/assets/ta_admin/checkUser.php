@@ -17,11 +17,6 @@ session_start();
 
 $conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 $student_email = $_SESSION['email'];
-// $course_number = $_POST['course'];
-// $rating = $_POST['rating'];
-// $comment = $_POST['comment'];
-// $year = $_POST['year'];
-// $term = $_POST['term'];
 $sql = $conn->prepare('SELECT * FROM User WHERE email = :email');
 $sql->bindValue(':email', $student_email);
 // $sql->bind_param('s', $student_email);
