@@ -1,4 +1,6 @@
 <?php
+
+//session_save_path('/home/2020/sshahb5/sessions');
 session_start();
 
 echo '<p> Welcome: ' . $_SESSION['email'] . '</p>';

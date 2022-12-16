@@ -1,4 +1,5 @@
 <?php
+//session_save_path('/home/2020/sshahb5/sessions');
 session_start();
 
 $servername = 'localhost'; // Change accordingly
@@ -33,22 +34,27 @@ echo '<br /> <br /> <br /> <br /> <br />';
 
 function sysop()
 {
+    // echo '<div class = "section" style="background-color:rgba(255,0,0,0.0);">';
+    echo ' <div class="row">
+    <div class="col-12 col-s-4 col-">';
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href = \'../sysop_tasks/dashboard.html\'">
-    <i class="fa fa-external-link"></i> System Operation </button>';
+    <i class="fa fa-cog"></i> System Operation </button>';
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_admin/dashboard.html\'">
-    <i class="fa fa-external-link"></i> TA Administration </button>';
+    <i class="fa fa-sliders"></i> TA Administration </button>';
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_management/dashboard.html\'">
-    <i class="fa fa-external-link"></i> TA Management </button>';
+    <i class="fa fa-book"></i> TA Management </button>';
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_rating/dashboard.html\'">
-    <i class="fa fa-external-link"></i> Rate a TA </button>';
+    <i class="fa fa-thumbs-up"></i> Rate a TA </button>';
+
+    echo '</div> </div>';
 }
 
 function ta()
 {
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_management/dashboard.html\'">
-    <i class="fa fa-external-link"></i> TA Management </button>';
+    <i class="fa fa-book"></i> TA Management </button>';
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_rating/dashboard.html\'">
-    <i class="fa fa-external-link"></i> Rate a TA </button>';
+    <i class="fa fa-thumbs-up"></i> Rate a TA </button>';
 }
 
 function student()
@@ -60,19 +66,19 @@ function student()
 function professor()
 {
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_management/dashboard.html\'">
-    <i class="fa fa-external-link"></i> TA Management </button>';
+    <i class="fa fa-book"></i> TA Management </button>';
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_rating/dashboard.html\'">
-    <i class="fa fa-external-link"></i> Rate a TA </button>';
+    <i class="fa fa-thumbs-up"></i> Rate a TA </button>';
 }
 
 function admin()
 {
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_admin/dashboard.html\'">
-    <i class="fa fa-external-link"></i> TA Administration </button>';
+    <i class="fa fa-sliders"></i> TA Administration </button>';
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_management/dashboard.html\'">
-    <i class="fa fa-external-link"></i> TA Management </button>';
+    <i class="fa fa-book"></i> TA Management </button>';
     echo '<button type="button" class="btn btn-danger mr-4" data-toggle="modal" data-target="#import-profs" onclick="window.location.href =  \'../ta_rating/dashboard.html\'">
-    <i class="fa fa-external-link"></i> Rate a TA </button>';
+    <i class="fa fa-thumbs-up"></i> Rate a TA </button>';
 }
 
 // echo '<p>' . userTypes[0] . ' </p>';

@@ -35,11 +35,14 @@
         <div class="container-fluid">
           <!-- Logo and User Role  -->
           <div class="d-flex align-items-center">
-            <img
-              src="../media/mcgill_logo.png"
-              style="width: 14rem; height: auto"
-              alt="mcgill-logo"
-            />
+            <a href="../dashboard/dashboard.html" class="navbar-brand">
+              <img
+                src="../media/mcgill_logo.png"
+                style="width: 14rem; height: auto"
+                
+                alt="mcgill-logo"
+              />
+              </a>
             <select class="custom-select" id="custom-select-options" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
               <option value="" selected disabled>Select...</option>
             </select>
@@ -115,6 +118,7 @@
                       <i class="fa fa-close"></i>
                     </button>
                   </div>
+                  
 
                   <div class="modal-body">
                     <div id="prof-form-modal">
@@ -313,10 +317,42 @@
             </div>
             
             
-            <!-- Add  TA -->
-            <br />
             <br />
             <div id="output_add"></div>
+            <hr />
+            <h5 style=
+            "color: rgb(237, 27, 47);">Search for a TA</h5>
+            <div class="container d-flex flex-row">
+
+              <div class="row">
+              <div class="col-12 align-self-center">
+                <form id="get-ta-values" action="javaScript:getFliteredTa()" method="post">
+
+                  <div class="ta_report_float">
+                    <select class="form-control" name="filterValue" required>
+                      <option value="" selected disabled>Filter By..</option>
+                      <option value="email">Email</option>
+                      <option value="courseNumber">Course Number</option>
+                    </select >
+  
+                    </div>
+
+                    <div class="ta_report_float">
+                      <input class="form-control" placeholder="Search Results" type="text" name="search-value" required />
+  
+                    </div>
+
+
+                    <div class="ta_report_float">
+                  <button type="submit" class="btn btn-secondary" data-dismiss="modal"  value="Submit"><i class="fa fa-search"></i> Search</button>
+                </div>
+                </form>
+                </div>
+                </div>
+            </div>
+
+            <hr />
+
             <div class="container d-flex flex-row">
               <div class="row">
                 
@@ -324,6 +360,15 @@
                   <h2 id="title">All TAs</h2>
                 </div>
               </div>
+              
+
+            <!-- Import Courses -->
+
+
+
+
+
+              
               <div class="col-auto align-self-center">
                 <div
                   class="modal fade"
@@ -406,9 +451,12 @@
               </div>
             </div>
 
+
             <br />
 
             <!-- Display TAs -->
+            
+            
             <div id="ta-table"></div>
           </div>
         </div>
@@ -416,13 +464,11 @@
         <!-- Courses -->
         <div class="tab-pane fade" id="nav-courses" role="tabpanel">
           <div>
+            <h5 style=
+            "color: rgb(237, 27, 47);">Please Select a Course: </h5>
             <div class="container d-flex flex-row">
               <div class="row">
-                <div class="col-auto mr-auto">
-                  <h3 id="title"> Course: </h3>
-                </div>
-              </div>
-              <div class="col-auto align-self-center">
+              <div class="col-12 col-">
                 <form id="get-ta-by-course" action="javaScript:getTaByCourseAccounts()" method="post">
                   <div class="ta_report_float">
                   <select class="form-control" name="course-code" required >
@@ -464,10 +510,11 @@
 
 
                     <div class="ta_report_float">
-                  <input type="submit" class="btn btn-secondary" data-dismiss="modal"  value="Submit" />
+                      <button type="submit" class="btn btn-secondary" data-dismiss="modal"  value="Submit"><i class="fa fa-search"></i> Search</button>
                 </div>
                 </form>
 
+              </div>
               </div>
 
             <!-- Import Courses -->
@@ -476,7 +523,7 @@
           </div>
 
             <!-- Add Courses -->
-
+            <hr />
             <br />
 
             <!-- Display Courses -->
@@ -488,18 +535,13 @@
         <div class="tab-pane fade" id="nav-users" role="tabpanel">
 
           <!-- Add Users -->
+          <h5 style=
+          "color: rgb(237, 27, 47);">Please Enter TA Email for a Detailed Report</h5>
           <div class="container d-flex flex-row">
             <div class="row">
-              <div class="col-auto mr-auto">
-                <h3 id="title"> TA Report: </h3>
-              </div>
             </div>
             <div class="col-auto align-self-center">
               <form id="get-ta-report" action="javaScript:getTAReports()" method="post">
-                <div class="ta_report_float">
-                  <input class="form-control" placeholder="McGill ID" type="text" name="id-num" required />
-
-                </div>
                   <div class="ta_report_float">
                   
                   <input class="form-control" placeholder="Email" type="email" name="email-ta-report" required />
@@ -507,16 +549,18 @@
 
 
                 <div class="ta_report_float">
-                <input type="submit" class="btn btn-secondary" data-dismiss="modal"  value="Submit" />
+                  <button type="submit" class="btn btn-secondary" data-dismiss="modal"  value="Submit"><i class="fa fa-search"></i> Search</button>
               </div>
               </form>
 
             </div>
+           
 
           <!-- Import Courses -->
 
 
         </div>
+        <hr />
           <br />
 
           <!-- Display Users -->
