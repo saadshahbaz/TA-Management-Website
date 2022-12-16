@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <title>TA Management Registration</title>
+  <meta name="description" content="TA Management Registration" />
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="xampp, php, perl, apache, mysql, mariadb" />
+  <link rel="icon" href="../media/favicon.ico" type="image/ico" />
+  <script src="register.js"></script>
+  <link rel="icon" href="../media/favicon.ico" type="image/ico" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="register.css" rel="stylesheet" />
+
+</head>
+
+<body onLoad="javascript:getYears()">
+  <div class="login">
+    <div class="welcome">
+      <form id="login-form" action="javascript:sendRegisterRequest()" method="post">
+
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="content">
+                <div class="banner">
+                  <h1 class="title">Welcome to the TA Management website!</h1>
+                  <h4 class="title">The TA management website is available for Professors, TA's, Students and Admin</h4>
+                  <h4 class="title">Sign Up here...</h4>
+                </div>
+              </div>
+            </div>
+            
+
+            <div class="row">
+              <div class="content">
+                <div class="banner-bottom">
+                  <h1 class="title">Contact us for any Queries:</h1>
+                  <h4 class="title"><a class="title" href="mailto:saumyaa.verma@mail.mcgill.ca">saumyaa.verma@mail.mcgill.ca</a></h4>
+                  <h4 class="title"><a class="title" href="mailto:saad.shahbaz@mail.mcgill.ca">saad.shahbaz@mail.mcgill.ca</a></h4>
+                  <h4 class="title"><a class="title" href="mailto:can.taktakoglu@mail.mcgill.ca">can.taktakoglu@mail.mcgill.caa</a></h4>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-inner">
+              <img class="logo" src="../media/mcgill_logo.png" alt="mcgill-logo" />
+
+              <p class="top">
+              <h2>Registration</h2>
+              </p>
+              <p>
+              <h4>Enter Details:</h4>
+              </p>
+              <div class="form-group form-group-lg">
+                <input class="form-control form-control-lg" type="text" name="fname" placeholder="First Name" id="fname"
+                  onChange="" required />
+              </div>
+              <div class="form-group-lg form-group">
+                <input class="form-control form-control-lg" type="text" name="lname" placeholder="Last Name" id="lname"
+                  onChange="" required />
+              </div>
+
+              <div class="form-group form-group-lg">
+                <input class="form-control form-control-lg" type="text" name="email" placeholder="Email" id="email"
+                  onChange="" required />
+              </div>
+              <div class="form-group form-group-lg">
+                <input class="form-control form-control-lg" type="text" name="username" placeholder="Username"
+                  id="username" onChange="" required />
+              </div>
+
+              <div class="form-group form-group-lg">
+                <input class="form-control form-control-lg" type="password" name="password" placeholder="Password"
+                  id="password" onChange="" required />
+              </div><br />
+              <h4>Select Role:</h4>
+              <div class="fc">
+                <div class="col">
+                  <input type="checkbox" name="type[]" id="student" value="Student" onclick="coursesShow()" required />
+                  Student
+                </div>
+                <div class="col">
+                  <input type="checkbox" name="type[]" id="professor" value="Professor" onclick="coursesShow()"
+                    required />
+                  Professor
+                </div>
+                <div class="col">
+                  <input type="checkbox" name="type[]" id="taadmin" value="TA Administrator" onclick="coursesShow()"
+                    required />
+                  TA Administrator
+                </div>
+                <div class="col">
+                  <input type="checkbox" name="type[]" id="ta" value="TA" onclick="coursesShow()" required />
+                  TA
+                </div>
+                <div class="col">
+                  <input type="checkbox" name="type[]" id="sysop" value="System Operator" onclick="coursesShow()"
+                    required />
+                  System Operator
+                </div>
+
+
+
+
+              </div>
+              <h4>Additional Details:</h4>
+
+              <div class="studentId">
+                <input class="form-control hide" type="text" name="studentId" id="studentId" placeholder="Student ID" />
+              </div><br />
+
+              <div class="form-group">
+                <select class="form-control" id="year" name="year" onchange="showCourses()">
+                  <option value="" selected disabled> Select a Year... </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <select class="form-control hide" id="semester" name="semester" onchange="getCourses()">
+                  <option value="" selected disabled> Select a Semester... </option>
+                  <option value="Fall" id="semester">Fall</option>
+                  <option value="Winter" id="semester">Winter</option>
+                </select>
+              </div>
+
+
+              <div id="course-select" name="term-course">
+              </div><br />
+
+              <div id="course-select"></div>
+
+              <div id="login-error"></div>
+
+              <div class="btn btn-danger">
+                <input type="submit" value="Sign up" />
+              </div>
+              <br /><br />
+              <h6 class="bottom">
+                <a href="../../login/login.html" class="links">Login instead...</a>
+              </h6>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

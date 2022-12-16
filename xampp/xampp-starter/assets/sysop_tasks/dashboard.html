@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TA Management - Sysop</title>
+    <link href="dashboard.css" rel="stylesheet" />
+    <link rel="icon" href="../media/favicon.ico" type="image/ico">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+
+  <body>
+    <!-- <script src="./manage_users.js"></script>
+    <script src="./manage_courses.js"></script>
+    <script src="./manage_profs.js"></script> -->
+    <script src="./manage_sysop.js"></script>
+    <script src="../dashboard/createSelection.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <div class="container">
+      <nav class="navbar">
+        <!-- Header -->
+        <div class="container-fluid">
+          <!-- Logo and User Role  -->
+          <div class="d-flex align-items-center">
+            <img
+              src="../media/mcgill_logo.png"
+              style="width: 14rem; height: auto"
+              alt="mcgill-logo"
+            />
+            <select class="custom-select" id="custom-select-options" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+              <option value="" selected disabled>Select...</option>
+            </select>
+          </div>
+          <!-- Logout -->
+          <div>
+            <button
+              type="button"
+              class="btn btn-link"
+              onclick="window.location.replace('../logout/logout.html')"
+            >
+              <i class="fa fa-sign-out" style="font-size: 24px"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a
+            class="nav-item nav-link active"
+            data-toggle="tab"
+            href="#nav-profs"
+            role="tab"
+            >Professors</a
+          >
+          <a
+            class="nav-item nav-link"
+            data-toggle="tab"
+            href="#nav-courses"
+            role="tab"
+            >Courses</a
+          >
+          <a
+            class="nav-item nav-link"
+            data-toggle="tab"
+            href="#nav-users"
+            role="tab"
+            >Users</a
+          >
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <br />
+
+        <!-- eklemeye basliyorum -->
+        
+        <div class="tab-pane fade show active" id="nav-profs" role="tabpanel">
+            <div>
+              <!-- Add  -->
+              <button
+                type="button"
+                class="btn btn-outline-secondary mr-4"
+                data-toggle="modal"
+                data-target="#add-new-professor"
+              >
+                <i class="fa fa-plus"></i>
+                Add Professor
+              </button>
+              <div
+              class="modal fade"
+              id="add-new-professor"
+              tabindex="-1"
+              role="dialog"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <form
+                    id="add-profs-form"
+                    action="javascript:saveProfAccount()"
+                    method="post"
+                  >
+                    <div class="modal-header">
+                      <h3 class="modal-title">Add a Professor</h3>
+                      <button class="close" data-dismiss="modal" aria-label="Close"  >
+                        <i class="fa fa-close"></i>
+                      </button>
+                    </div>
+  
+                    <div class="modal-body">
+                      <div id="prof-form-modal">
+                        <input class="form-control" placeholder="Instructor Email"  type="text" name="inst-email" required/><br />
+  
+                        <!-- <input class="form-control" placeholder="First Name" type="text"  name="ta-firstName" /><br />
+                      <input class="form-control" placeholder="Last Name" type="text" name="ta-lastName" /><br /> -->
+                      
+                        <select class="form-control" name="faculty">
+                          <option value="" selected disabled> Select a Faculty... </option>
+                          <option value="Science">Science</option>
+                          <option value="Engineering">Engineering</option>
+                          <option value="Arts">Arts</option></select ><br />
+  
+  
+                        <select class="form-control" name="dept">
+                          <option value="" selected disabled> Select a Department... </option>
+                          <option value="Computer Science"> Computer Science </option>
+                          <option value="Mathematics">Mathematics</option>
+                          <option value="Physics">Physics</option></select ><br />
+                          
+                          <!-- Course Number -->
+                          <select class="form-control" name="course-code" >
+                            <option value="" selected disabled> Select Course Code... </option>
+                            <option value="COMP">COMP</option>
+                            <option value="MATH">MATH</option>
+                            <option value="PHYS">PHYS</option>
+                            <option value="PSYC">PSYC</option>
+                            <option value="ECSE">ECSE</option>
+                          </select ><br />
+                        <input class="form-control" placeholder="Course Number" type="text" name="crn-num" required/><br />
+                        <!-- Terms -->
+  
+                        <div id="prof-error-msg-cont"></div>
+                      </div>
+                    </div>
+  
+                    <div class="modal-footer">
+                      <input
+                        type="button"
+                        class="btn btn-light"
+                        data-dismiss="modal"
+                        value="Cancel"
+                      />
+                      <input
+                        type="submit"
+                        class="btn btn-light"
+                        data-dismiss="modal"
+                        onclick="saveProfAccount()"
+                        value="Save"
+                      />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+              
+  
+              <button 
+              type="button"
+              class="btn btn-outline-secondary mr-4"
+              data-toggle="modal"
+              data-target="#remove-professor"
+            >
+              <i class="fa fa-minus"></i>
+              Remove Professor
+            </button>
+  
+            <div
+            class="modal fade"
+            id="remove-professor"
+            tabindex="-1"
+            role="dialog"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <form
+                  id="remove-profs-form"
+                  action="javascript:getRemoveProfInformation()"
+                  method="post"
+                >
+                  <div class="modal-header">
+                    <h3 class="modal-title">Remove a Professor</h3>
+                    <button class="close" data-dismiss="modal" aria-label="Close"  >
+                      <i class="fa fa-close"></i>
+                    </button>
+                  </div>
+  
+                  <div class="modal-body">
+                    <div id="prof-form-modal">
+                      <input class="form-control" placeholder="Instructor Email"  type="text" name="inst-email" required/><br />
+  
+                      <select class="form-control" name="faculty">
+                        <option value="" selected disabled> Select a Faculty... </option>
+                        <option value="Science">Science</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Arts">Arts</option></select ><br />
+  
+  
+                      <select class="form-control" name="dept">
+                        <option value="" selected disabled> Select a Department... </option>
+                        <option value="Computer Science"> Computer Science </option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option></select ><br />
+                        <!-- Course Number -->
+                        <select class="form-control" name="course-code" >
+                          <option value="" selected disabled> Select Course Code... </option>
+                          <option value="COMP">COMP</option>
+                          <option value="MATH">MATH</option>
+                          <option value="PHYS">PHYS</option>
+                          <option value="PSYC">PSYC</option>
+                          <option value="ECSE">ECSE</option>
+                        </select ><br />
+  
+                      <input class="form-control" placeholder="Course Number" type="text" name="crn-num" required/><br />
+                      <!-- Terms -->
+  
+                      <div id="prof-error-msg-cont"></div>
+                    </div>
+                  </div>
+  
+                  <div class="modal-footer">
+                    <input
+                      type="button"
+                      class="btn btn-light"
+                      data-dismiss="modal"
+                      value="Cancel"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-light"
+                      data-dismiss="modal"
+                      onclick="getRemoveProfInformation()"
+                      value="Save"
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        <!-- eklemeye biter -->
+        <!-- Professors -->
+            <!-- Import Professors -->
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-toggle="modal"
+              data-target="#import-profs"
+            >
+              <i class="fa fa-download"></i>
+              Import
+            </button>
+            <div
+              class="modal fade"
+              id="import-profs"
+              tabindex="-1"
+              role="dialog"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <form
+                    id="upload-prof-form"
+                    action="javascript:saveMultipleProfAccounts()"
+                    method="post"
+                  >
+                    <div class="modal-header">
+                      <h3 class="modal-title">Import Professors</h3>
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <i class="fa fa-close"></i>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <input id="prof-upload-csv" type="file" />
+                    </div>
+                    <div class="modal-footer">
+                      <input
+                        type="button"
+                        class="btn btn-light"
+                        data-dismiss="modal"
+                        value="Cancel"
+                      />
+                      <input 
+                      type="submit" 
+                      class="btn btn-light" 
+                      data-dismiss="modal"
+                      onclick="saveMultipleProfAccounts()"
+                      value="Save" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add Professors -->
+            <br />
+            <br />
+            <div class="container d-flex flex-row">
+              <div class="row">
+                <div class="col-auto mr-auto">
+                  <h2 id="title">All Professors</h2>
+                </div>
+              </div>
+              <div class="col-auto align-self-center">
+                <div
+                  class="modal fade"
+                  id="add-new-prof"
+                  tabindex="-1"
+                  role="dialog"
+                >
+                </div>
+              </div>
+            </div>
+
+            <br />
+
+            <!-- Display Professors -->
+            <div id="profs-table"></div>
+          </div>
+        </div>
+
+        <!-- Courses -->
+        <div class="tab-pane fade" id="nav-courses" role="tabpanel">
+          <div>
+            <button
+              type="button"
+              class="btn btn-outline-secondary mr-4"
+              data-toggle="modal"
+              data-target="#add-new-course"
+            >
+              <i class="fa fa-plus"></i>
+              Add Course
+            </button>
+            <div
+                  class="modal fade"
+                  id="add-new-course"
+                  tabindex="-1"
+                  role="dialog"
+                >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form
+                        id="add-course-form"
+                        action="javascript:saveCourse()"
+                        method="post"
+                      >
+                        <div class="modal-header">
+                          <h3 class="modal-title">Add a Course</h3>
+                          <button
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            <i class="fa fa-close"></i>
+                          </button>
+                        </div>
+
+                        <div class="modal-body">
+                          <div id="course-form-modal">
+                            <select class="form-control" name="course-code" >
+                                <option value="" selected disabled> Select Course Code... </option>
+                                <option value="COMP">COMP</option>
+                                <option value="MATH">MATH</option>
+                                <option value="PHYS">PHYS</option>
+                                <option value="PSYC">PSYC</option>
+                                <option value="ECSE">ECSE</option>
+                              </select ><br />
+                            <input
+                              class="form-control"
+                              placeholder="Please enter the course number."
+                              type="text"
+                              name="crn-number"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Please enter the course name."
+                              type="text"
+                              name="course-name"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Please enter the course description."
+                              type="text"
+                              name="crn-dscrpn"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Please enter the course term."
+                              type="text"
+                              name="crn-term"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Please enter the course year."
+                              type="text"
+                              name="crn-year"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Please enter the course instructor's email."
+                              type="text"
+                              name="crn-email"
+                              required
+                            /><br />
+                            <div id="course-error-msg-cont"></div>
+                          </div>
+                        </div>
+
+                        <div class="modal-footer">
+                          <input
+                            type="button"
+                            class="btn btn-light"
+                            data-dismiss="modal"
+                            value="Cancel"
+                          />
+                          <input
+                            type="submit"
+                            class="btn btn-light"
+                            data-dismiss="modal"
+                            onclick="saveCourse()"
+                            value="Save"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+            <button
+              type="button"
+              class="btn btn-outline-secondary mr-4"
+              data-toggle="modal"
+              data-target="#remove-course"
+            >
+              <i class="fa fa-minus"></i>
+              Remove Course
+            </button>
+            <div
+            class="modal fade"
+            id="remove-course"
+            tabindex="-1"
+            role="dialog"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <form
+                  id="remove-course-form"
+                  action="javascript:getRemoveCourseInformation()"
+                  method="post"
+                >
+                  <div class="modal-header">
+                    <h3 class="modal-title">Remove a Course</h3>
+                    <button class="close" data-dismiss="modal" aria-label="Close"  >
+                      <i class="fa fa-close"></i>
+                    </button>
+                  </div>
+  
+                  <div class="modal-body">
+                    <div id="prof-form-modal">
+  
+                      <select class="form-control" name="course-code" >
+                        <option value="" selected disabled> Select Course Code... </option>
+                        <option value="COMP">COMP</option>
+                        <option value="MATH">MATH</option>
+                        <option value="PHYS">PHYS</option>
+                        <option value="PSYC">PSYC</option>
+                        <option value="ECSE">ECSE</option>
+                      </select ><br />
+
+                    <input class="form-control" placeholder="Course Number" type="text" name="crn-num" /><br />
+
+                    <input
+                              class="form-control"
+                              placeholder="Please enter the course term."
+                              type="text"
+                              name="crn-term"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Please enter the course year."
+                              type="text"
+                              name="crn-year"
+                              required
+                            /><br />
+
+                            <input class="form-control" placeholder="Instructor Email"  type="text" name="crn-email" /><br />
+
+                        <!-- Course Number -->
+                        
+                      <!-- Terms -->
+  
+                      <div id="course-error-msg-cont"></div>
+                    </div>
+                  </div>
+  
+                  <div class="modal-footer">
+                    <input
+                      type="button"
+                      class="btn btn-light"
+                      data-dismiss="modal"
+                      value="Cancel"
+                    />
+                    <input
+                      type="submit"
+                      class="btn btn-light"
+                      data-dismiss="modal"
+                      onclick="getRemoveCourseInformation()"
+                      value="Save"
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+
+            <!-- Import Courses -->
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-toggle="modal"
+              data-target="#import-courses"
+            >
+              <i class="fa fa-download"></i>
+              Import
+            </button>
+            <div
+              class="modal fade"
+              id="import-courses"
+              tabindex="-1"
+              role="dialog"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <form
+                    id="upload-course-form"
+                    action="javascript:saveMultipleCourses()"
+                    method="post"
+                  >
+                    <div class="modal-header">
+                      <h3 class="modal-title">Import Courses</h3>
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <i class="fa fa-close"></i>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <input id="course-upload-csv" type="file" />
+                    </div>
+                    <div class="modal-footer">
+                      <input
+                        type="button"
+                        class="btn btn-light"
+                        data-dismiss="modal"
+                        value="Cancel"
+                      />
+                      <input
+                        type="submit"
+                        class="btn btn-light"
+                        data-dismiss="modal"
+                        onclick="saveMultipleCourses()"
+                        value="Save"
+                      />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add Courses -->
+            <br />
+            <br />
+            <div class="container d-flex flex-row">
+              <div class="row">
+                <div class="col-auto mr-auto">
+                  <h2 id="title">All Courses</h2>
+                </div>
+              </div>
+            </div>
+
+            <br />
+
+            <!-- Display Courses -->
+            <div id="course-table"></div>
+          </div>
+        </div>
+
+        <!-- Users -->
+        <div class="tab-pane fade" id="nav-users" role="tabpanel">
+          <!-- Import Users -->
+          <button
+              type="button"
+              class="btn btn-outline-secondary mr-4"
+              data-toggle="modal"
+              data-target="#add-new-user"
+            >
+              <i class="fa fa-plus"></i>
+              Add User
+            </button>
+            <div
+                  class="modal fade"
+                  id="add-new-user"
+                  tabindex="-1"
+                  role="dialog"
+                >
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <form
+                        id="add-user-form"
+                        action="javascript:saveNewAccount()"
+                        method="post"
+                      >
+                        <div class="modal-header">
+                          <h3 class="modal-title">Add a User</h3>
+                          <button
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            <i class="fa fa-close"></i>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div id="account-info">
+                            <input
+                              class="form-control"
+                              placeholder="Enter the first name of the user"
+                              type="text"
+                              name="first-name"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Enter the last name of the user"
+                              type="text"
+                              name="last-name"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Enter the username"
+                              type="text"
+                              name="usernamezort"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="abc@xyz.com"
+                              type="email"
+                              name="email"
+                              required
+                            /><br />
+                            <input
+                              class="form-control"
+                              placeholder="Enter temporary password"
+                              type="password"
+                              name="pwd"
+                              required
+                            /><br />
+                            <div class="studentId">
+                              <input type="text" name="studentId" id="studentId" placeholder="Student ID" class="hide"/>
+                            </div>
+
+                            <div class="fac">
+                              <input type="text" name="fac" id="fac" placeholder="Faculty" class="hide"/>
+                            </div>
+
+                            <div class="dep">
+                              <input type="text" name="dep" id="dep" placeholder="Department" class="hide"/>
+                            </div>
+
+                            <div class="container">
+                              <div class="flex-row">
+                                <div class="d-flex justify-content-between">
+                                  <div>
+                                    <input
+                                      type="checkbox"
+                                      class="form-check-input"
+                                      name="student"
+                                      value="student"
+                                      id="student"
+                                      onclick="showStudentID()"
+                                    />
+                                    <label
+                                      class="form-check-label"
+                                      for="student"
+                                      >Student</label
+                                    >
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="checkbox"
+                                      class="form-check-input"
+                                      name="professor"
+                                      id="professor"
+                                      value="professor"
+                                      onclick="showFacDep()"
+                                    />
+                                    <label
+                                      class="form-check-label"
+                                      for="professor"
+                                      >Professor</label
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex-row">
+                                <div class="d-flex justify-content-between">
+                                  <div>
+                                    <input
+                                      class="form-check-input"
+                                      type="checkbox"
+                                      name="admin"
+                                      id="admin"
+                                      value="admin"
+                                    />
+                                    <label class="form-check-label" for="admin"
+                                      >TA Administrator</label
+                                    >
+                                  </div>
+                                  <div>
+                                    <input
+                                      class="form-check-input"
+                                      type="checkbox"
+                                      name="ta"
+                                      id="ta"
+                                      value="ta"
+                                      onclick="showStudentID()"
+                                    />
+                                    <label class="form-check-label" for="ta"
+                                      >Teaching Assistant</label
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex-row">
+                                <div class="d-flex justify-content-between">
+                                  <div>
+                                    <input
+                                      class="form-check-input"
+                                      type="checkbox"
+                                      name="sysop"
+                                      id="sysop"
+                                      value="sysop"
+                                    />
+                                    <label class="form-check-label" for="sysop"
+                                      >System Operator</label
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div id="user-error-msg-cont"></div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <input
+                            type="button"
+                            class="btn btn-light"
+                            data-dismiss="modal"
+                            value="Cancel"
+                          />
+                          <input
+                            type="submit"
+                            class="btn btn-light"
+                            data-dismiss="modal"
+                            onclick="saveNewAccount()"
+                            value="Save"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                type="button"
+                class="btn btn-outline-secondary mr-4"
+                data-toggle="modal"
+                data-target="#edit-user"
+              >
+              <i class="fa fa-plus"></i>
+                Add New Role To User
+              </button>
+
+              <!-- araya yapistiriyorum 1 -->
+
+              <div
+                  class="modal fade"
+                  id="edit-user"
+                  tabindex="-1"
+                  role="dialog"
+                >
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <form
+                        id="edit-user-form"
+                        action="javascript:getEditAccountInformation()"
+                        method="post"
+                      >
+                        <div class="modal-header">
+                          <h3 class="modal-title">Add New Role to a User</h3>
+                          <button
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            <i class="fa fa-close"></i>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div id="account-info">
+                            <input
+                              class="form-control"
+                              placeholder="abc@xyz.com"
+                              type="email"
+                              name="email"
+                              required
+                            /><br />
+
+                            <div class="studentId">
+                              <input type="text" name="studentId" id="studentId2" placeholder="Student ID" class="hide"/>
+                            </div>
+
+                            <div class="fac">
+                              <input type="text" name="fac" id="fac2" placeholder="Faculty" class="hide"/>
+                            </div>
+
+                            <div class="dep">
+                              <input type="text" name="dep" id="dep2" placeholder="Department" class="hide"/>
+                            </div>
+    
+                            <div class="container">
+                              <div class="flex-row">
+                                <div class="d-flex justify-content-between">
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      class="form-check-input"
+                                      name="to_add"
+                                      value="student"
+                                      id="student2"
+                                      onclick="betterFunc()"
+                                    />
+                                    <label
+                                      class="form-check-label"
+                                      for="student"
+                                      >Student</label
+                                    >
+                                  </div>
+                                  <div>
+                                    <input
+                                      type="radio"
+                                      class="form-check-input"
+                                      name="to_add"
+                                      id="prof2"
+                                      value="professor"
+                                      onclick="betterFunc()"
+                                    />
+                                    <label
+                                      class="form-check-label"
+                                      for="professor"
+                                      >Professor</label
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex-row">
+                                <div class="d-flex justify-content-between">
+                                  <div>
+                                    <input
+                                      class="form-check-input"
+                                      type="radio"
+                                      name="to_add"
+                                      id="admin2"
+                                      value="admin"
+                                      onclick="betterFunc()"
+                                    />
+                                    <label class="form-check-label" for="admin"
+                                      >TA Administrator</label
+                                    >
+                                  </div>
+                                  <div>
+                                    <input
+                                      class="form-check-input"
+                                      type="radio"
+                                      name="to_add"
+                                      value="ta"
+                                      id="ta2"
+                                      onclick="betterFunc()"
+                                    />
+                                    <label class="form-check-label" for="ta"
+                                      >Teaching Assistant</label
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex-row">
+                                <div class="d-flex justify-content-between">
+                                  <div>
+                                    <input
+                                      class="form-check-input"
+                                      type="radio"
+                                      name="to_add"
+                                      value="sysop"
+                                      id="sysop2"
+                                      onclick="betterFunc()"
+                                    />
+                                    <label class="form-check-label" for="sysop"
+                                      >System Operator</label
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div id="user-error-msg-cont"></div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <input
+                            type="button"
+                            class="btn btn-light"
+                            data-dismiss="modal"
+                            value="Cancel"
+                          />
+                          <input
+                            type="submit"
+                            class="btn btn-light"
+                            data-dismiss="modal"
+                            onclick="getEditAccountInformation()"
+                            value="Save"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+
+              <!-- araya yapistiriyorum 2 -->
+
+              
+
+
+                <button
+                type="button"
+                class="btn btn-outline-secondary mr-4"
+                data-toggle="modal"
+                data-target="#remove-user"
+              >
+                <i class="fa fa-minus"></i>
+                Remove User
+              </button>
+              <div
+                    class="modal fade"
+                    id="remove-user"
+                    tabindex="-1"
+                    role="dialog"
+                  >
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <form
+                          id="remove-user-form"
+                          action="javascript:getRemoveAccountInformation()"
+                          method="post"
+                        >
+                          <div class="modal-header">
+                            <h3 class="modal-title">Remove a User</h3>
+                            <button
+                              class="close"
+                              data-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              <i class="fa fa-close"></i>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div id="account-info">
+                              <input
+                                class="form-control"
+                                placeholder="abc@xyz.com"
+                                type="email"
+                                name="email"
+                                required
+                              /><br />
+                              <div class="container">
+                                <div class="flex-row">
+                                  <div class="d-flex justify-content-between">
+                                    <div>
+                                      <input
+                                        type="radio"
+                                        class="form-check-input"
+                                        name="to_remove"
+                                        value="student"
+                                      />
+                                      <label
+                                        class="form-check-label"
+                                        for="student"
+                                        >Student</label
+                                      >
+                                    </div>
+                                    <div>
+                                      <input
+                                      class="form-check-input"
+                                        type="radio"
+                                        name="to_remove"
+                                        value="professor"
+                                      />
+                                      <label
+                                        class="form-check-label"
+                                        for="professor"
+                                        >Professor</label
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="flex-row">
+                                  <div class="d-flex justify-content-between">
+                                    <div>
+                                      <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="to_remove"
+                                        value="admin"
+                                      />
+                                      <label class="form-check-label" for="admin"
+                                        >TA Administrator</label
+                                      >
+                                    </div>
+                                    <div>
+                                      <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="to_remove"
+                                        value="ta"
+                                      />
+                                      <label class="form-check-label" for="ta"
+                                        >Teaching Assistant</label
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="flex-row">
+                                  <div class="d-flex justify-content-between">
+                                    <div>
+                                      <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="to_remove"
+                                        value="sysop"
+                                      />
+                                      <label class="form-check-label" for="sysop"
+                                        >System Operator</label
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+  
+                              <div id="user-error-msg-cont"></div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <input
+                              type="button"
+                              class="btn btn-light"
+                              data-dismiss="modal"
+                              value="Cancel"
+                            />
+                            <input
+                              type="submit"
+                              class="btn btn-light"
+                              data-dismiss="modal"
+                              onclick="getRemoveAccountInformation()"
+                              value="Save"
+                            />
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+          
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-toggle="modal"
+            data-target="#import-users"
+          >
+            <i class="fa fa-download"></i>
+            Import
+          </button>
+          <div class="modal fade" id="import-users" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <form
+                  id="upload-user-form"
+                  action="javascript:saveMultipleNewAccounts()"
+                  method="post"
+                >
+                  <div class="modal-header">
+                    <h3 class="modal-title">Import Users</h3>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <i class="fa fa-close"></i>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <input id="user-upload-csv" type="file" />
+                  </div>
+                  <div class="modal-footer">
+                    <input
+                      type="button"
+                      class="btn btn-light"
+                      data-dismiss="modal"
+                      value="Cancel"
+                    />
+                    <input type="submit" class="btn btn-light" value="Save" />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Users -->
+          <br />
+          <br />
+          <div class="container d-flex flex-row">
+            <div class="row">
+              <div class="col-auto mr-auto">
+                <h2 id="title">All Users</h2>
+              </div>
+              <div class="col-auto align-self-center">
+                <!-- BURDAN CIKARDIMMMMM -->
+                
+              </div>
+            </div>
+          </div>
+          <br />
+
+          <!-- Display Users -->
+          <div id="user-table"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+
+      function loadExistingData() {
+        checkUser();
+      }
+      document.onload = loadExistingData();
+    </script>
+  </body>
+</html>
