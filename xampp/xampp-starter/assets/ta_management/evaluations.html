@@ -35,11 +35,14 @@
         <div class="container-fluid">
           <!-- Logo and User Role  -->
           <div class="d-flex align-items-center">
-            <img
-              src="../media/mcgill_logo.png"
-              style="width: 14rem; height: auto"
-              alt="mcgill-logo"
-            />
+            <a href="../dashboard/dashboard.html" class="navbar-brand">
+              <img
+                src="../media/mcgill_logo.png"
+                style="width: 14rem; height: auto"
+                
+                alt="mcgill-logo"
+              />
+              </a>
             <select class="custom-select" id="custom-select-options" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" >
               <option value="" selected disabled>Select...</option>
             </select>

@@ -16,17 +16,14 @@ $conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 $ta_email = $_POST['email'];
 $student_id = $_POST['student_id'];
 
-if ($ta_email == 'null' or $student_id == 'null') {
+if ($ta_email == 'null') {
     die('NO TA SELECTED');
 }
 
 // if (strcmp($ta_email, '') != 0 and strcmp($student_id, '') != 0) {
-$sql = $conn->prepare(
-    'SELECT * FROM TA_COHORT WHERE email= :email AND student_id=:studentID'
-);
+$sql = $conn->prepare('SELECT * FROM TA_COHORT WHERE email= :email');
 // $sql->bind_param('ss', $ta_email, $student_id);
 $sql->bindValue(':email', $ta_email);
-$sql->bindValue(':studentID', $student_id);
 $result = $sql->execute();
 //$result = $sql->get_result();
 
@@ -116,12 +113,9 @@ echo '<tr>
     '</td>
     </tr></table><br /> <br />';
 
-$sql2 = $conn->prepare(
-    'SELECT * FROM TA WHERE email=:email AND student_id=:studentID'
-);
+$sql2 = $conn->prepare('SELECT * FROM TA WHERE email=:email');
 // $sql2->bind_param('ss', $ta_email, $student_id);
 $sql2->bindValue(':email', $ta_email);
-$sql2->bindValue(':studentID', $student_id);
 $ta_details = $sql2->execute();
 // $ta_details = $sql2->get_result();
 

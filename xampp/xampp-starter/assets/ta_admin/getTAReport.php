@@ -16,7 +16,7 @@ $conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 $ta_email = $_POST['email'];
 $student_id = $_POST['student_id'];
 
-if ($ta_email == 'null' or $student_id == 'null') {
+if ($ta_email == 'null') {
     die('NO TA SELECTED');
 }
 
@@ -25,20 +25,16 @@ if ($ta_email == 'null' or $student_id == 'null') {
 // }
 
 // if (strcmp($ta_email, '') != 0 and strcmp($student_id, '') != 0) {
-$sql = $conn->prepare(
-    'SELECT * FROM TA WHERE email=:email AND student_id=:studentID'
-);
+$sql = $conn->prepare('SELECT * FROM TA WHERE email=:email');
 // $sql->bind_param('ss', $ta_email, $student_id);
 $sql->bindValue(':email', $ta_email);
-$sql->bindValue(':studentID', $student_id);
 $result = $sql->execute();
 //$result = $sql->get_result();
 
 $sql2 = $conn->prepare(
-    'SELECT FORMAT(AVG(TA_Ratings.rating),2) as ta_rating_average FROM TA_Ratings WHERE TA_Ratings.ta_email = (SELECT DISTINCT email FROM TA WHERE ta.student_id = :studentID AND ta.email = :email)'
+    'SELECT FORMAT(AVG(TA_Ratings.rating),2) as ta_rating_average FROM TA_Ratings WHERE TA_Ratings.ta_email = (SELECT DISTINCT email FROM TA where ta.email = :email)'
 );
 
-$sql2->bindValue(':studentID', $student_id);
 $sql2->bindValue(':email', $ta_email);
 
 // $sql2->bind_param('ss', $student_id, $ta_email);
@@ -47,10 +43,9 @@ $ta_averges = $sql2->execute();
 // $ta_averges = $sql2->get_result();
 
 $sql3 = $conn->prepare(
-    'SELECT COUNT(course) as total_courses FROM `TA` WHERE email = :email and student_id = :studentID'
+    'SELECT COUNT(course) as total_courses FROM `TA` WHERE email = :email'
 );
 
-$sql3->bindValue(':studentID', $student_id);
 $sql3->bindValue(':email', $ta_email);
 // $sql3->bind_param('ss', $ta_email, $student_id);
 $num_crs = $sql3->execute();
