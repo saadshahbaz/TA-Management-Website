@@ -64,21 +64,24 @@
           <a
             class="nav-item nav-link active"
             data-toggle="tab"
-            href="#nav-profs"
+            id="nav-ta-tab"
+            href="#nav-ta"
             role="tab"
             >TA</a
           >
           <a
             class="nav-item nav-link"
             data-toggle="tab"
-            href="#nav-courses"
+            id="nav-course-sum"
+            href="#nav-course-summary"
             role="tab"
             >TA History By Course</a
           >
           <a
             class="nav-item nav-link"
             data-toggle="tab"
-            href="#nav-users"
+            id="nav-ta-info"
+            href="#nav-ta-information"
             role="tab"
             >TA Information</a
           >
@@ -87,7 +90,7 @@
       <div class="tab-content" id="nav-tabContent">
         <br />
         <!-- All TA Information -->
-        <div class="tab-pane fade show active" id="nav-profs" role="tabpanel">
+        <div class="tab-pane fade show active" id="nav-ta" role="tabpanel">
           <div>
             <!-- Add  -->
             <button
@@ -477,7 +480,7 @@
         </div>
 
         <!-- Courses -->
-        <div class="tab-pane fade" id="nav-courses" role="tabpanel">
+        <div class="tab-pane fade" id="nav-course-summary" role="tabpanel">
           <div>
             <h5 style=
             "color: rgb(237, 27, 47);">Please Select a Course: </h5>
@@ -547,7 +550,7 @@
         </div>
 
         <!-- Users -->
-        <div class="tab-pane fade" id="nav-users" role="tabpanel">
+        <div class="tab-pane fade" id="nav-ta-information" role="tabpanel">
 
           <!-- Add Users -->
           <h5 style=
@@ -556,7 +559,7 @@
             <div class="row">
             </div>
             <div class="col-auto align-self-center">
-              <form id="get-ta-report" action="javaScript:getTAReports()" method="post">
+              <form id="get-ta-report" action="javaScript:extractEmailValuesTAReport()" method="post">
                   <div class="ta_report_float">
                   
                   <input class="form-control" placeholder="Email" type="email" name="email-ta-report" required />

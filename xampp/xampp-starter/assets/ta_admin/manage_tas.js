@@ -235,6 +235,7 @@ function addTAInformation()
 
         getTaAccounts();
         populateTaTable2(syncRequest, 'output_add');
+        getTerm_Year();
         
 
     }else{
@@ -304,6 +305,7 @@ function removeTA(email, student_id, name, courseNumber, term, year) {
         taform.reset();
         getTaAccounts();
         populateTaTable2(syncRequest, 'output_add');
+        getTerm_Year();
     }
 } catch (exception) {
     alert("Request failed. Please try again.");
@@ -399,7 +401,7 @@ function getTAAnalysis(id, email) {
     }
 }
 
-function getTAReports() 
+function getTAReports(email) 
 {
 
     // We can give a summary of these which means having two features
@@ -407,7 +409,6 @@ function getTAReports()
     // [TA EMAIL, STUDENT_ID, COURSES TAUGHT, TA_THIS_YEAR, AVERAGE RATING, ]
     const formData = new FormData(document.getElementById('get-ta-report'));
     let id = formData.get('id-num');
-    let email = formData.get('email-ta-report').toLowerCase();;
 
     console.log("This is the ID" + id + " and the email is: " + email);
 
@@ -429,6 +430,14 @@ function getTAReports()
     }
 }
 
+function extractEmailValuesTAReport()
+{
+    const formData = new FormData(document.getElementById('get-ta-report'));
+    let email = formData.get('email-ta-report').toLowerCase();
+    getTAReports(email);
+
+}
+
 function buttonInformationRemove(id)
 {
     console.log(id);
@@ -447,4 +456,37 @@ function buttonInformationRemove(id)
     }else{
         return;
     }
+}
+
+function buttonInformationRemove2(id)
+{
+    console.log(id);
+    let x = document.getElementById("myTable").rows[parseInt(id)]
+    let email = x.cells[0].innerHTML;
+    let student_id = x.cells[1].innerHTML;
+    let ta_name = x.cells[2].innerHTML;
+    let course = x.cells[3].innerHTML;
+    let term = x.cells[4].innerHTML;
+    let year = x.cells[5].innerHTML;
+
+    getTAReports(email);
+    
+    let nav = document.getElementById('nav-ta');
+    nav.className = "tab-pane fade";
+
+    let tab = document.getElementById('nav-ta-tab');
+    tab.className = "nav-item nav-link";
+
+    let nav2 = document.getElementById('nav-ta-information');
+    nav2.className += " show active";
+
+    let tab2 = document.getElementById('nav-ta-info');
+    tab2.className += " active";
+    // let y = confirm("Are you sure you want to view \nName: " + ta_name + " \nStudent ID: " + student_id + " \nEmail: " + email +"\nCourse Number: " + course + " \nTerm: " + term + " \nYear: " + year);
+
+    // // if (y == true) {
+    // //     removeTA(email, student_id, ta_name, course, term, year);
+    // // }else{
+    // //     return;
+    // // }
 }
