@@ -12,6 +12,7 @@ function checkUser()
                     window.location.href = '../logout/logout.html';
                 }else{
                     getTaAccounts();
+                    getTerm_Year();
                 }
             }
         }
@@ -21,6 +22,8 @@ function checkUser()
         alert ("Request failed. Please try again.");
     }
 }
+
+
 
 function getFliteredTa()
 {
@@ -78,6 +81,90 @@ function populateTaTable2(request, table_name)
     table.innerHTML = request.responseText;
 }
 
+function getTerm_Year()
+{
+    try {
+        const req = new XMLHttpRequest();
+        req.open("GET", './getTerm_Year.php', true);
+        req.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+        req.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                populateTaTable2(req, 'term-selected');
+            }
+        }
+        req.send(null);
+    }catch (exception)
+    {
+        alert ("Request failed. Please try again.");
+    }
+}
+function getName(filling_value, email_var,name)
+{
+    const year = document.getElementById(email_var);
+    const email = year.value;
+    const variable = "name";
+
+    
+    try {
+        const req = new XMLHttpRequest();
+        req.open("GET", `./populateValues.php?actions=${variable}&email=${email}&id_name=${name}`, true);
+        req.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+        req.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                if (filling_value === 'addTA'){
+                    populateTaTable2(req, 'ta-name-div-add');
+                }else{
+                    populateTaTable2(req, 'ta-name-div-remove');
+                }
+                
+            }
+        }
+        req.send(null);
+    }catch (exception)
+    {
+        alert ("Request failed. Please try again.");
+    }
+}
+
+function getStudentID(filling_value, email_var, name)
+{
+    const year = document.getElementById(email_var);
+    const email = year.value;
+    const variable = "studentID";
+    
+    try {
+        const req = new XMLHttpRequest();
+        req.open("GET", `./populateValues.php?actions=${variable}&email=${email}&id_name=${name}`, true);
+        req.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+        req.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                if (filling_value === 'addTA'){
+                    populateTaTable2(req, 'ta-id-div-add');
+                }else {
+                    populateTaTable2(req, 'ta-id-div-remove');
+                }
+
+                
+            }
+        }
+        req.send(null);
+        if (filling_value === 'addTA'){
+            getName('addTA', email_var,name);
+        }else {
+            getName('removeTA', email_var,name);
+        }
+        
+    }catch (exception)
+    {
+        alert ("Request failed. Please try again.");
+    }
+}
+
+
+
 function getTaByCourseAccounts() 
 {
     const formData = new FormData(document.getElementById('get-ta-by-course'));
@@ -113,11 +200,12 @@ function addTAInformation()
     while (error_div.firstChild) {
         error_div.removeChild(error_div.lastChild);
     }
-    // now to add profs we first retrieve the entire Proffessors data
     const formData = new FormData(document.getElementById('add-ta-form'));
     let email = formData.get('ta-email').toLowerCase();
-    let student_id = formData.get('ta-student-id');
-    let name = formData.get('ta-name');
+    // let student_id = formData.get('ta-student-id');
+    let student_id = document.getElementById('ta-student-add').value;
+    // let name = formData.get('ta-name');
+    let name = document.getElementById('ta-name-add').value;
     let hours = formData.get('hours');
     let courseNumber =  formData.get('crn-num').toUpperCase();
     let term = formData.get('term');
@@ -168,8 +256,9 @@ function getRemoveTAInformation()
     // now to add profs we first retrieve the entire Proffessors data
     const formData = new FormData(document.getElementById('remove-ta-form'));
     let email = formData.get('ta-email').toLowerCase();
-    let student_id = formData.get('ta-student-id');
-    let name = formData.get('ta-name');
+    let student_id = document.getElementById('ta-student-remove').value;
+    // let name = formData.get('ta-name');
+    let name = document.getElementById('ta-name-remove').value;
     let courseNumber =  formData.get('crn-num');
     let term = formData.get('term');
     let year = formData.get('year');

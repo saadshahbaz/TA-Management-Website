@@ -122,10 +122,13 @@
 
                   <div class="modal-body">
                     <div id="prof-form-modal">
-                      <input class="form-control" placeholder="TA Email"  type="text" name="ta-email" required/><br />
-                      <input class="form-control" placeholder="TA Student Id"  type="text" name="ta-student-id" required/><br />
-                      <input class="form-control" placeholder="TA Name"  type="text" name="ta-name" required/><br />
-
+                      <input class="form-control" placeholder="TA Email"  type="email" name="ta-email" id="ta-email-add" required onchange="getStudentID('addTA', 'ta-email-add', 'add')"/><br />
+                      <div id="ta-id-div-add">
+                        <input class="form-control" placeholder="TA Student Id"  type="text" name="ta-student-id" disabled/><br />
+                      </div>
+                      <div id="ta-name-div-add">
+                      <input class="form-control" placeholder="TA Name"  type="text" name="ta-name" disabled/><br />
+                    </div>
                       <select class="form-control" name="hours" required>
                         <option value="" selected disabled> Select Assigned Hours... </option>
                         <option value="90"> 90 </option>
@@ -211,9 +214,15 @@
 
                 <div class="modal-body">
                   <div id="prof-form-modal">
-                    <input class="form-control"  placeholder="TA Email"  type="text" name="ta-email" required /><br />
-                    <input class="form-control" placeholder="TA Student Id"  type="text" name="ta-student-id" required /><br />
-                    <input class="form-control" placeholder="TA Name"  type="text" name="ta-name" required /><br />
+                    <input class="form-control"  placeholder="TA Email"  type="text" name="ta-email" id="ta-email-remove" required onchange="getStudentID('removeTA', 'ta-email-remove', 'remove')"/><br />
+                    <div id="ta-id-div-remove">
+                      <input class="form-control" placeholder="TA Student Id"  type="text" name="ta-student-id" disabled/><br />
+                    </div>
+                    <div id="ta-name-div-remove">
+                    <input class="form-control" placeholder="TA Name"  type="text" name="ta-name" disabled/><br />
+                  </div>
+
+                    
 
                       <!-- Course Number -->
 
@@ -318,6 +327,7 @@
             
             
             <br />
+            <br />
             <div id="output_add"></div>
             <hr />
             <h5 style=
@@ -341,6 +351,11 @@
                       <input class="form-control" placeholder="Search Results" type="text" name="search-value" required />
   
                     </div>
+
+                    <div class="ta_report_float">
+                      <select class="form-control" name="term-selected" id="term-selected" required>
+                      </select >
+                      </div>
 
 
                     <div class="ta_report_float">
