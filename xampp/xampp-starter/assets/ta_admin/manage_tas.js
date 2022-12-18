@@ -31,6 +31,7 @@ function getFliteredTa()
 
     filter_value = formData.get('filterValue');
     results = formData.get('search-value');
+    document.getElementById('removeFilter').hidden = false;
     console.log(filter_value, results);
     try {
         const req = new XMLHttpRequest();

@@ -36,7 +36,7 @@ echo '<tr>
     <th class="red-label">Term </th>
     <th class="red-label">Year</th>
     <th class="red-label">Assigned Hours</th>
-    <th class="red-label">View</th>
+    <th class="red-label">Detailed Report</th>
     <th class="red-label">Remove</th>
     </tr>';
 
