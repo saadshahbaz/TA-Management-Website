@@ -5,11 +5,13 @@ $username = 'root'; // Change accordingly
 $password = ''; // Change accordingly
 $db = 'xampp_starter'; // Change accordingly
 
-$conn = new mysqli($servername, $username, $password, $db);
+// $conn = new mysqli($servername, $username, $password, $db);
 
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-}
+// if ($conn->connect_error) {
+//     die('Connection failed: ' . $conn->connect_error);
+// }
+
+$conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 
 function getProf($year, $term, $course)
 {

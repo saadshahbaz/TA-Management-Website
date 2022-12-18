@@ -30,7 +30,7 @@ function getTA($year, $term, $course)
     // $result = $sql->get_result();
 
     echo '<option value="" selected disabled> Select a TA... </option>';
-    while ($ta = $result->fetch_assoc()) {
+    while ($ta = $result->fetchArray()) {
         $sql2 = $conn->prepare('SELECT * FROM User WHERE email= :email');
         $sql2->bindValue(':email', $ta['email']);
 
