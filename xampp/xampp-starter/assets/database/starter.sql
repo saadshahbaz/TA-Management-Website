@@ -5,8 +5,6 @@ CREATE TABLE `User` (
   `lastName` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `createdAt` varchar(100) NULL,
-  `updatedAt` varchar(100) NULL ,
   `studentId` varchar(10)  NULL,
   `username` varchar(40)  NULL,
   PRIMARY KEY (`email`)
@@ -227,15 +225,15 @@ CREATE TABLE `message` (
    FOREIGN KEY (`course`, `term`, `year`) REFERENCES `Course` (`courseNumber`,`term`, `year`)
 );
 
-INSERT INTO `User` (`firstName`, `lastName`, `email`, `password`, `createdAt`, `updatedAt`, `studentId`, `username`) VALUES
-('Mathieu', 'Blanchette', 'mathieu@comp307.com', '$2y$10$5HxIGFEmYO6OyG7IOgjlmuCRofwLTG2Ah9DtiEdGetHD.rZZN0Xbq', '2022-10-13 18:09:22', '2022-10-13 18:09:22','260845200', 'mathieu.blanchette'),
-('Ali Murtaza', 'Malik', 'ali.malik@mcgill.ca', '$2y$10$BeRmXpghgI4W.4Ojow1.p.ONz04hf1dYVLqsH9ScI2fsAXpd8GG3C', '2022-12-08 08:17:42', '2022-12-08 08:19:08', '260845298', 'ali.malik'),
-('Doruk', 'Can', 'Doruk@mcgill.ca', '$2y$10$paS3gzcHk/IYfzyRaKqEk.rxUFIg1EaxY8cYczt3cUqVmcazSSivG', '2022-12-10 01:39:25', '2022-12-10 01:39:25', '', 'doruk.can'),
-('Saumyaa', 'Verma', 'saumya.verma@mcgill.ca', '$2y$10$4WChTJyN.gsIXJfTEX02JeosHMKIBlUhTqnjUzULy.zTAIuaak7.a', '2022-12-13 20:40:51', '2022-12-13 20:40:51', '260845259', 'saumya.verma'),
-('Sym', 'Piracha', 'sym.piracha@mcgill.ca', '$2y$10$5aicsVN7CiRJsKBCGaVhruQoUmR6p7oJMMJLnJrBe6c8dmQzFSXom', '2022-12-14 01:37:13', '2022-12-14 01:37:13', '260845256', 'sym.piracha'),
-('Saad', 'Shahbaz', 'saad.shahbaz@mcgill.ca', '$2y$10$Sw5w3wR5EEM4nQdFxcAFVutnGkHoLlyhv54MvSnn0BpvMX70XKtL6', '2022-12-14 01:37:14', '2022-12-14 01:37:14', '260845253', 'saad.shahbaz'),
-('Test', 'test', 'test.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '2022-12-04 05:48:16', '2022-12-04 05:48:16', '260845255', 'test.test'),
-('Zahra', 'Hussain', 'zahra.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '2022-12-04 05:48:16', '2022-12-04 05:48:16', '260845254', 'zahra.hussain');
+INSERT INTO `User` (`firstName`, `lastName`, `email`, `password`, `studentId`, `username`) VALUES
+('Mathieu', 'Blanchette', 'mathieu@comp307.com', '$2y$10$5HxIGFEmYO6OyG7IOgjlmuCRofwLTG2Ah9DtiEdGetHD.rZZN0Xbq','260845200', 'mathieu.blanchette'),
+('Ali Murtaza', 'Malik', 'ali.malik@mcgill.ca', '$2y$10$BeRmXpghgI4W.4Ojow1.p.ONz04hf1dYVLqsH9ScI2fsAXpd8GG3C', '260845298', 'ali.malik'),
+('Doruk', 'Can', 'Doruk@mcgill.ca', '$2y$10$paS3gzcHk/IYfzyRaKqEk.rxUFIg1EaxY8cYczt3cUqVmcazSSivG', '', 'doruk.can'),
+('Saumyaa', 'Verma', 'saumya.verma@mcgill.ca', '$2y$10$4WChTJyN.gsIXJfTEX02JeosHMKIBlUhTqnjUzULy.zTAIuaak7.a', '260845259', 'saumya.verma'),
+('Sym', 'Piracha', 'sym.piracha@mcgill.ca', '$2y$10$5aicsVN7CiRJsKBCGaVhruQoUmR6p7oJMMJLnJrBe6c8dmQzFSXom', '260845256', 'sym.piracha'),
+('Saad', 'Shahbaz', 'saad.shahbaz@mcgill.ca', '$2y$10$Sw5w3wR5EEM4nQdFxcAFVutnGkHoLlyhv54MvSnn0BpvMX70XKtL6', '260845253', 'saad.shahbaz'),
+('Test', 'test', 'test.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '260845255', 'test.test'),
+('Zahra', 'Hussain', 'zahra.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '260845254', 'zahra.hussain');
 
 
 INSERT INTO `User_UserType` (`userId`, `userTypeId`) VALUES
