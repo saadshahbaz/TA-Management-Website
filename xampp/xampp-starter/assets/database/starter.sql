@@ -9,10 +9,10 @@ CREATE TABLE `User` (
   `username` varchar(40)  NULL,
   PRIMARY KEY (`email`)
 );
-INSERT INTO User VALUES('Avinash','Bhat','avi@comp307.com','$2y$10$iqQA5ffMBUaBn0weeSM8.eKbEwhyGPOqV.DxKL.Ox2A1cq.0QfpuW','2022-10-11 04:42:50','2022-10-11 04:42:50','260845298','avinash.bhatt');
-INSERT INTO User VALUES('Jane','Doe','jane@comp307.com','$2y$10$Jq/Ab6L6yPpGbPmyt5tC1e5uO81fP4YBLAow4LHPRgVtLjU8rcK7C','2022-10-13 18:09:22','2022-10-13 18:09:22','260845299','jane.doe');
-INSERT INTO User VALUES('John','Doe','john@comp307.com','$2y$10$jAGY.QSoQwIoTH13LWUaKu3LdCoYOG2zey0pz4qJNtTdaF3G4Elqy','2022-10-09 16:46:43','2022-10-09 16:46:43','260845288','john.doe');
-INSERT INTO User VALUES('Joseph','Vybihal','joseph@comp307.com','$2y$10$MwaR9.9RqkKnjGsj6ELtAugh4EwRjh84esjwp6tf52XOTZpy6xxGu','2022-10-13 14:36:07','2022-10-13 14:36:07','260845289','joseph.vybihal');
+INSERT INTO User VALUES('Avinash','Bhat','avi@comp307.com','$2y$10$iqQA5ffMBUaBn0weeSM8.eKbEwhyGPOqV.DxKL.Ox2A1cq.0QfpuW','260845298','avinash.bhatt');
+INSERT INTO User VALUES('Jane','Doe','jane@comp307.com','$2y$10$Jq/Ab6L6yPpGbPmyt5tC1e5uO81fP4YBLAow4LHPRgVtLjU8rcK7C','260845299','jane.doe');
+INSERT INTO User VALUES('John','Doe','john@comp307.com','$2y$10$jAGY.QSoQwIoTH13LWUaKu3LdCoYOG2zey0pz4qJNtTdaF3G4Elqy','260845288','john.doe');
+INSERT INTO User VALUES('Joseph','Vybihal','joseph@comp307.com','$2y$10$MwaR9.9RqkKnjGsj6ELtAugh4EwRjh84esjwp6tf52XOTZpy6xxGu','260845289','joseph.vybihal');
 
 CREATE TABLE `Course` (
   `courseName` varchar(256) NOT NULL,
