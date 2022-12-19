@@ -23,7 +23,7 @@ CREATE TABLE `Course` (
   `courseInstructor` varchar(40) NOT NULL,
   PRIMARY KEY (`courseNumber`, `term`, `year`),
   CONSTRAINT CourseInstructor_ForeignKey
-   FOREIGN KEY (`courseInstructor`) REFERENCES REFERENCES `User` (`email`) ON UPDATE CASCADE
+   FOREIGN KEY (`courseInstructor`) REFERENCES `User` (`email`) ON UPDATE CASCADE
 );
 INSERT INTO Course VALUES('Principles of Web Development','The course discusses the major principles, algorithms, languages and technologies that underlie web development. Students receive practical hands-on experience through a project.','Fall','2022','COMP 250','joseph@comp307.com');
 INSERT INTO Course VALUES('Honours Project in Computer Science and Biology','One-semester research project applying computational approaches to a biological problem. The project is (co)-supervised by a professor in Computer Science and/or Biology or related fields.','Winter','2023','COMP 402','jane@comp307.com');
