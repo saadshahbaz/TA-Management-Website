@@ -3,38 +3,40 @@ PRAGMA foreign_keys=1;
 CREATE TABLE `User` (
   `firstName` varchar(40) NOT NULL,
   `lastName` varchar(40) NOT NULL,
-  `email` varchar(40) PRIMARY KEY NOT NULL,
+  `email` varchar(40) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `createdAt` varchar(100) NULL,
-  `updatedAt` varchar(100) NULL ,
   `studentId` varchar(10)  NULL,
-  `username` varchar(40)  NULL
+  `username` varchar(40)  NULL,
+  PRIMARY KEY (`email`)
 );
-INSERT INTO User VALUES('Avinash','Bhat','avi@comp307.com','$2y$10$iqQA5ffMBUaBn0weeSM8.eKbEwhyGPOqV.DxKL.Ox2A1cq.0QfpuW','2022-10-11 04:42:50','2022-10-11 04:42:50','260845298','avinash.bhatt');
-INSERT INTO User VALUES('Jane','Doe','jane@comp307.com','$2y$10$Jq/Ab6L6yPpGbPmyt5tC1e5uO81fP4YBLAow4LHPRgVtLjU8rcK7C','2022-10-13 18:09:22','2022-10-13 18:09:22','260845299','jane.doe');
-INSERT INTO User VALUES('John','Doe','john@comp307.com','$2y$10$jAGY.QSoQwIoTH13LWUaKu3LdCoYOG2zey0pz4qJNtTdaF3G4Elqy','2022-10-09 16:46:43','2022-10-09 16:46:43','260845288','john.doe');
-INSERT INTO User VALUES('Joseph','Vybihal','joseph@comp307.com','$2y$10$MwaR9.9RqkKnjGsj6ELtAugh4EwRjh84esjwp6tf52XOTZpy6xxGu','2022-10-13 14:36:07','2022-10-13 14:36:07','260845289','joseph.vybihal');
+INSERT INTO User VALUES('Avinash','Bhat','avi@comp307.com','$2y$10$iqQA5ffMBUaBn0weeSM8.eKbEwhyGPOqV.DxKL.Ox2A1cq.0QfpuW','260845298','avinash.bhatt');
+INSERT INTO User VALUES('Jane','Doe','jane@comp307.com','$2y$10$Jq/Ab6L6yPpGbPmyt5tC1e5uO81fP4YBLAow4LHPRgVtLjU8rcK7C','260845299','jane.doe');
+INSERT INTO User VALUES('John','Doe','john@comp307.com','$2y$10$jAGY.QSoQwIoTH13LWUaKu3LdCoYOG2zey0pz4qJNtTdaF3G4Elqy','260845288','john.doe');
+INSERT INTO User VALUES('Joseph','Vybihal','joseph@comp307.com','$2y$10$MwaR9.9RqkKnjGsj6ELtAugh4EwRjh84esjwp6tf52XOTZpy6xxGu','260845289','joseph.vybihal');
 
 CREATE TABLE `Course` (
   `courseName` varchar(256) NOT NULL,
   `courseDesc` text NOT NULL,
   `term` varchar(8) NOT NULL,
   `year` varchar(4) NOT NULL,
-  `courseNumber` varchar(8) PRIMARY KEY NOT NULL ,
+  `courseNumber` varchar(8) NOT NULL ,
   `courseInstructor` varchar(40) NOT NULL,
-  CONSTRAINT courseInstructor_ForeignKey
-   FOREIGN KEY (courseInstructor) REFERENCES `User` (`email`)
+  PRIMARY KEY (`courseNumber`, `term`, `year`),
+  CONSTRAINT CourseInstructor_ForeignKey
+   FOREIGN KEY (`courseInstructor`) REFERENCES `User` (`email`) ON UPDATE CASCADE
 );
 INSERT INTO Course VALUES('Principles of Web Development','The course discusses the major principles, algorithms, languages and technologies that underlie web development. Students receive practical hands-on experience through a project.','Fall','2022','COMP 250','joseph@comp307.com');
 INSERT INTO Course VALUES('Honours Project in Computer Science and Biology','One-semester research project applying computational approaches to a biological problem. The project is (co)-supervised by a professor in Computer Science and/or Biology or related fields.','Winter','2023','COMP 402','jane@comp307.com');
 CREATE TABLE `Professor` (
-  `professor` varchar(40) PRIMARY KEY NOT NULL,
+  `professor` varchar(40) NOT NULL,
   `faculty` varchar(30) NOT NULL,
   `department` varchar(30) NOT NULL,
   `course` varchar(10) NOT NULL,
-  CONSTRAINT courseNumber_ForeignKey
-   FOREIGN KEY (course) REFERENCES `Course` (`courseNumber`),
-   FOREIGN KEY (`professor`) REFERENCES `User` (`email`)
+  PRIMARY KEY (`professor`),
+  CONSTRAINT CourseNumber_ForeignKey
+    FOREIGN KEY (`course`) REFERENCES `Course` (`courseNumber`) ON UPDATE CASCADE,
+  CONSTRAINT ProfName_ForeignKey
+   FOREIGN KEY (`professor`) REFERENCES `User` (`email`) ON UPDATE CASCADE
 );
 INSERT INTO Professor VALUES('joseph@comp307.com','Science','Computer Science','COMP 250');
 INSERT INTO Professor VALUES('jane@comp307.com','Science','Computer Science','COMP 402');
@@ -42,7 +44,7 @@ INSERT INTO Professor VALUES('jane@comp307.com','Science','Computer Science','CO
 CREATE TABLE `UserType` (
   `idx` int(11) NOT NULL,
   `userType` varchar(9) NOT NULL,
-  PRIMARY KEY (`idx`, `userType`)
+  PRIMARY KEY (`idx`)
 );
 INSERT INTO UserType VALUES(1,'student');
 INSERT INTO UserType VALUES(2,'professor');
@@ -53,19 +55,26 @@ INSERT INTO UserType VALUES(5,'sysop');
 CREATE TABLE `User_UserType` (
   `userId` varchar(40) NOT NULL,
   `userTypeId` int(11) NOT NULL,
-  PRIMARY KEY ('userId','userTypeId'),
-  CONSTRAINT userusertype_ForeignKey
-   FOREIGN KEY (`userId`) REFERENCES `User` (`email`) ON DELETE RESTRICT
+  PRIMARY KEY(
+     `userId`,
+     `userTypeId`
+  ),
+  CONSTRAINT User_ForeignKey
+   FOREIGN KEY (`userId`) REFERENCES `User` (`email`) ON UPDATE CASCADE,
+  CONSTRAINT UserType_ForeignKey
+  FOREIGN KEY (`userTypeId`) REFERENCES `UserType` (`idx`) ON UPDATE CASCADE
 );
 
 
 
 
 CREATE TABLE `Student_Course` (
-  `studentId` varchar(40) PRIMARY KEY NOT NULL,
+  `studentId` varchar(40) NOT NULL,
   `courseId` varchar(10) NOT NULL,
-  CONSTRAINT studentCourse_ForeignKey
-   FOREIGN KEY (`courseId`) REFERENCES `Course` (`courseNumber`)
+  CONSTRAINT Student_ForeignKey
+    FOREIGN KEY (`studentId`) REFERENCES `User` (`email`) ON UPDATE CASCADE,
+  CONSTRAINT Course_ForeignKey
+    FOREIGN KEY (`courseId`) REFERENCES `Course` (`courseNumber`) ON UPDATE CASCADE
 );
 
 
@@ -93,7 +102,11 @@ CREATE TABLE `OfficeHours` (
   `location` varchar(100) NOT NULL,
   `responsibilities` varchar(500) NOT NULL,
   `position` varchar(100) NOT NULL,
-  PRIMARY KEY ("email","course","term","year","day","start_time", "end_time")
+  PRIMARY KEY (`email`,`course`,`term`,`year`,`day`,`start_time`,`end_time`),
+  CONSTRAINT OfficeHours_ForeignKey
+    FOREIGN KEY (`email`) REFERENCES `User` (`email`) ON UPDATE CASCADE,
+  CONSTRAINT OfficeHours_Course_ForeignKey
+    FOREIGN KEY (`course`) REFERENCES `Course` (`courseNumber`) ON UPDATE CASCADE
 );
 
 CREATE TABLE `TA` (
@@ -201,20 +214,26 @@ CREATE TABLE `message` (
   `time` varchar(30) NOT NULL,
   `message` varchar(1000) NOT NULL,
   `tag` varchar(30),
-  PRIMARY KEY ("course","term","year","user","time"),
+  PRIMARY KEY(
+     `course`,
+     `term`,
+     `year`,
+     `user`,
+     `time`
+   ),
   CONSTRAINT message_ForeignKey
    FOREIGN KEY (`course`, `term`, `year`) REFERENCES `Course` (`courseNumber`,`term`, `year`)
 );
 
-INSERT INTO `User` (`firstName`, `lastName`, `email`, `password`, `createdAt`, `updatedAt`, `studentId`, `username`) VALUES
-('Mathieu', 'Blanchette', 'mathieu@comp307.com', '$2y$10$5HxIGFEmYO6OyG7IOgjlmuCRofwLTG2Ah9DtiEdGetHD.rZZN0Xbq', '2022-10-13 18:09:22', '2022-10-13 18:09:22','260845200', 'mathieu.blanchette'),
-('Ali Murtaza', 'Malik', 'ali.malik@mcgill.ca', '$2y$10$BeRmXpghgI4W.4Ojow1.p.ONz04hf1dYVLqsH9ScI2fsAXpd8GG3C', '2022-12-08 08:17:42', '2022-12-08 08:19:08', '260845298', 'ali.malik'),
-('Doruk', 'Can', 'Doruk@mcgill.ca', '$2y$10$paS3gzcHk/IYfzyRaKqEk.rxUFIg1EaxY8cYczt3cUqVmcazSSivG', '2022-12-10 01:39:25', '2022-12-10 01:39:25', '', 'doruk.can'),
-('Saumyaa', 'Verma', 'saumya.verma@mcgill.ca', '$2y$10$4WChTJyN.gsIXJfTEX02JeosHMKIBlUhTqnjUzULy.zTAIuaak7.a', '2022-12-13 20:40:51', '2022-12-13 20:40:51', '260845259', 'saumya.verma'),
-('Sym', 'Piracha', 'sym.piracha@mcgill.ca', '$2y$10$5aicsVN7CiRJsKBCGaVhruQoUmR6p7oJMMJLnJrBe6c8dmQzFSXom', '2022-12-14 01:37:13', '2022-12-14 01:37:13', '260845256', 'sym.piracha'),
-('Saad', 'Shahbaz', 'saad.shahbaz@mcgill.ca', '$2y$10$Sw5w3wR5EEM4nQdFxcAFVutnGkHoLlyhv54MvSnn0BpvMX70XKtL6', '2022-12-14 01:37:14', '2022-12-14 01:37:14', '260845253', 'saad.shahbaz'),
-('Test', 'test', 'test.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '2022-12-04 05:48:16', '2022-12-04 05:48:16', '260845255', 'test.test'),
-('Zahra', 'Hussain', 'zahra.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '2022-12-04 05:48:16', '2022-12-04 05:48:16', '260845254', 'zahra.hussain');
+INSERT INTO `User` (`firstName`, `lastName`, `email`, `password`, `studentId`, `username`) VALUES
+('Mathieu', 'Blanchette', 'mathieu@comp307.com', '$2y$10$5HxIGFEmYO6OyG7IOgjlmuCRofwLTG2Ah9DtiEdGetHD.rZZN0Xbq','260845200', 'mathieu.blanchette'),
+('Ali Murtaza', 'Malik', 'ali.malik@mcgill.ca', '$2y$10$BeRmXpghgI4W.4Ojow1.p.ONz04hf1dYVLqsH9ScI2fsAXpd8GG3C', '260845298', 'ali.malik'),
+('Doruk', 'Can', 'Doruk@mcgill.ca', '$2y$10$paS3gzcHk/IYfzyRaKqEk.rxUFIg1EaxY8cYczt3cUqVmcazSSivG', '', 'doruk.can'),
+('Saumyaa', 'Verma', 'saumya.verma@mcgill.ca', '$2y$10$4WChTJyN.gsIXJfTEX02JeosHMKIBlUhTqnjUzULy.zTAIuaak7.a', '260845259', 'saumya.verma'),
+('Sym', 'Piracha', 'sym.piracha@mcgill.ca', '$2y$10$5aicsVN7CiRJsKBCGaVhruQoUmR6p7oJMMJLnJrBe6c8dmQzFSXom', '260845256', 'sym.piracha'),
+('Saad', 'Shahbaz', 'saad.shahbaz@mcgill.ca', '$2y$10$Sw5w3wR5EEM4nQdFxcAFVutnGkHoLlyhv54MvSnn0BpvMX70XKtL6', '260845253', 'saad.shahbaz'),
+('Test', 'test', 'test.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '260845255', 'test.test'),
+('Zahra', 'Hussain', 'zahra.hussain@mcgill.ca', '$2y$10$Yibh0ujkpUrPtCCSS2DWGOZ3YfkFzWHuhbCZif3FIDTw/8st8eD62', '260845254', 'zahra.hussain');
 
 
 INSERT INTO `User_UserType` (`userId`, `userTypeId`) VALUES

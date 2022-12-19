@@ -43,12 +43,14 @@ function exportOH($course, $term, $year)
         'position',
     ];
     fputcsv($f, $fields, $delimiter);
-    while ($oh = $result->fetch_assoc()) {
-        $sql2 = $conn->prepare('SELECT * FROM User WHERE email= ?');
-        $sql2->bind_param('s', $oh['email']);
-        $sql2->execute();
-        $result2 = $sql2->get_result();
-        $user = $result2->fetch_assoc();
+    while ($oh = $result->fetchArray()) {
+        $sql2 = $conn->prepare('SELECT * FROM User WHERE email= :email');
+        //$sql2->bind_param('s', $oh['email']);
+        $sql2->bindValue(':email', $oh['email']);
+        //$sql2->execute();
+        $result2 = $sql2->execute();
+        //$user = $result2->fetch_assoc();
+        $user = $result2->fetchArray();
         $name = $user['firstName'] . ' ' . $user['lastName'];
         $lineData = [
             $name,
