@@ -36,7 +36,7 @@ echo '<tr>
     <th class="red-label">Term </th>
     <th class="red-label">Year</th>
     <th class="red-label">Assigned Hours</th>
-    <th class="red-label">Detailed Report</th>
+    <th class="red-label"> Report</th>
     <th class="red-label">Remove</th>
     </tr>';
 
@@ -83,12 +83,11 @@ while ($ta = $result->fetchArray(SQLITE3_ASSOC)) {
         <td><button type="button" id="' .
         $i .
         '-view' .
-        '" class="btn btn-outline-secondary" data-toggle="modal" onClick="buttonInformationRemove2(this.id)"><i class="fa fa-external-link"></i></button></td>
-
+        '" class="btn btn-outline-secondary" data-toggle="modal" onClick="buttonInformationRemove2(this.id)"><i class="fa fa-external-link"></i> Details  </button></td>
         <td><button type="button" id="' .
         $i .
         '-remove' .
-        '" class="btn btn-outline-secondary" data-toggle="modal" onClick="buttonInformationRemove(this.id)"><i class="fa fa-minus"></i></button></td>
+        '" class="btn btn-outline-secondary" data-toggle="modal" onClick="buttonInformationRemove(this.id)"><i class="fa fa-minus"></i> Remove </button></td>
 
 
 </tr>';
