@@ -32,7 +32,7 @@ CREATE TABLE `Professor` (
   `faculty` varchar(30) NOT NULL,
   `department` varchar(30) NOT NULL,
   `course` varchar(10) NOT NULL,
-  PRIMARY KEY (`professor`),
+  PRIMARY KEY (`professor`, `course`),
   CONSTRAINT CourseNumber_ForeignKey
     FOREIGN KEY (`course`) REFERENCES `Course` (`courseNumber`) ON UPDATE CASCADE,
   CONSTRAINT ProfName_ForeignKey

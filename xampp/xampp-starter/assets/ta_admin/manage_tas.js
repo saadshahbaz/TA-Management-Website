@@ -31,11 +31,14 @@ function getFliteredTa()
 
     filter_value = formData.get('filterValue');
     results = formData.get('search-value');
+    term = formData.get('term-selected').split(" ");
+    final_term = term[0];
+    final_year = term[1];
     document.getElementById('removeFilter').hidden = false;
     console.log(filter_value, results);
     try {
         const req = new XMLHttpRequest();
-        req.open("GET", `./getTAFiltered.php?filterValue=${filter_value}&results=${results}`, true);
+        req.open("GET", `./getTAFiltered.php?filterValue=${filter_value}&results=${results}&term=${final_term}&year=${final_year}`, true);
         req.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
         req.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200)
@@ -60,6 +63,9 @@ function populateTaTable(request)
 
 function getTaAccounts() 
 {
+    document.getElementById('removeFilter').hidden = true;
+    var taform = document.getElementById("get-ta-values");
+    taform.reset();
     try {
         const req = new XMLHttpRequest();
         req.open("GET", './get_TAs.php', true);
@@ -269,21 +275,6 @@ function getRemoveTAInformation()
 }
 
 function removeTA(email, student_id, name, courseNumber, term, year) {
-    // const error_div = document.getElementById("ta-error-msg-cont");
-    // while (error_div.firstChild) {
-    //     error_div.removeChild(error_div.lastChild);
-    // }
-    // // now to add profs we first retrieve the entire Proffessors data
-    // const formData = new FormData(document.getElementById('remove-ta-form'));
-    // let email = formData.get('ta-email');
-    // let student_id = formData.get('ta-student-id');
-    // let name = formData.get('ta-name');
-    // let courseNumber =  formData.get('crn-num');
-    // let term = formData.get('term');
-    // let year = formData.get('year');
-
-    // document.getElementById("remove-ta-form").reset();
-
     try {
         const syncRequest = new XMLHttpRequest();
         syncRequest.open("POST", "./remove_ta.php", false);
@@ -378,13 +369,6 @@ function importMultipleTAs()
 }
 
 function getTAAnalysis(id, email) {
-    // const formData = new FormData(document.getElementById('get-ta-report'));
-    // let id = formData.get('id-num');
-    // let email = formData.get('email-ta-report');
-
-
-
-    console.log("This is the ID " + id + " and the email is: " + email);
 
     try {
         const syncRequest = new XMLHttpRequest();
@@ -405,13 +389,9 @@ function getTAAnalysis(id, email) {
 function getTAReports(email) 
 {
 
-    // We can give a summary of these which means having two features
-    // report of one line getting the total courses they have taught
-    // [TA EMAIL, STUDENT_ID, COURSES TAUGHT, TA_THIS_YEAR, AVERAGE RATING, ]
     const formData = new FormData(document.getElementById('get-ta-report'));
     let id = formData.get('id-num');
 
-    console.log("This is the ID" + id + " and the email is: " + email);
 
     try {
         const syncRequest = new XMLHttpRequest();

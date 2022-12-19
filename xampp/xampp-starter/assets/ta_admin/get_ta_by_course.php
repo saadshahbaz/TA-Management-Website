@@ -35,7 +35,7 @@ if ($term != 'null' and $year != 'null') {
     $result = $sql->execute();
 
     $sql2 = $conn->prepare(
-        'SELECT * FROM course WHERE courseNumber= :courseNumber AND term= :term AND years= :years'
+        'SELECT * FROM course WHERE courseNumber= :courseNumber AND term= :term AND year= :years'
     );
 
     $sql2->bindValue(':courseNumber', $course);
@@ -56,7 +56,7 @@ if ($term != 'null' and $year != 'null') {
     // $result = $sql->get_result();
 
     $sql2 = $conn->prepare(
-        'SELECT * FROM course WHERE courseNumber= :courseNumber AND years= :years'
+        'SELECT * FROM course WHERE courseNumber= :courseNumber AND year= :years'
     );
     $sql2->bindValue(':courseNumber', $course);
     $sql2->bindValue(':years', $year);

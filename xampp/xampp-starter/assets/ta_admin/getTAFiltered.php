@@ -15,15 +15,23 @@ $conn = new SQLite3('../database/ta_management.db', SQLITE3_OPEN_READWRITE);
 // }
 
 if ($_GET['filterValue'] == 'email') {
-    $sql = $conn->prepare('SELECT * FROM TA where email = :email');
+    $sql = $conn->prepare(
+        'SELECT * FROM TA where email = :email and term = :term and years = :years'
+    );
     $sql->bindValue(':email', $_GET['results']);
+    $sql->bindValue(':term', $_GET['term']);
+    $sql->bindValue(':years', $_GET['year']);
     // $sql->bind_param('s', $_GET['results']);
     $result = $sql->execute();
     // $result = $sql->get_result();
 } elseif ($_GET['filterValue'] == 'courseNumber') {
-    $sql = $conn->prepare('SELECT * FROM TA where course = :course');
+    $sql = $conn->prepare(
+        'SELECT * FROM TA where course = :course and term = :term and years = :years'
+    );
     // $sql->bind_param('s', $_GET['results']);
     $sql->bindValue(':course', $_GET['results']);
+    $sql->bindValue(':term', $_GET['term']);
+    $sql->bindValue(':years', $_GET['year']);
     $result = $sql->execute();
 }
 
@@ -38,7 +46,7 @@ echo '<tr>
     <th class="red-label">Term </th>
     <th class="red-label">Year</th>
     <th class="red-label">Assigned Hours</th>
-    <th class="red-label">Detailed Report</th>
+    <th class="red-label"> Report</th>
     <th class="red-label">Remove</th>
     </tr>';
 
