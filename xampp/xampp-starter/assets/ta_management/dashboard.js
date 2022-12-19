@@ -131,7 +131,7 @@ function showButtons(request, year, term, course)
     else if (request.responseText == 'ta'){
         document.getElementById("courseForm").innerHTML = 
         '<div class="modal-header"><h3 class="modal-title">' + course + ' - '+ term + ' - ' + year + '</h3></div>' + 
-        'Select an Option:<br />' +
+        'Select an Option:<br /><br />' +
         '<div class="modal-body">' +
             '<div id="prof-form-modal">' +
                 '<div class="form-group">' +

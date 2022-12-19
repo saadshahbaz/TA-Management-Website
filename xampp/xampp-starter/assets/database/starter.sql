@@ -3,12 +3,13 @@ PRAGMA foreign_keys=1;
 CREATE TABLE `User` (
   `firstName` varchar(40) NOT NULL,
   `lastName` varchar(40) NOT NULL,
-  `email` varchar(40) PRIMARY KEY NOT NULL,
+  `email` varchar(40) NOT NULL,
   `password` varchar(100) NOT NULL,
   `createdAt` varchar(100) NULL,
   `updatedAt` varchar(100) NULL ,
   `studentId` varchar(10)  NULL,
-  `username` varchar(40)  NULL
+  `username` varchar(40)  NULL,
+  PRIMARY KEY (`email`)
 );
 INSERT INTO User VALUES('Avinash','Bhat','avi@comp307.com','$2y$10$iqQA5ffMBUaBn0weeSM8.eKbEwhyGPOqV.DxKL.Ox2A1cq.0QfpuW','2022-10-11 04:42:50','2022-10-11 04:42:50','260845298','avinash.bhatt');
 INSERT INTO User VALUES('Jane','Doe','jane@comp307.com','$2y$10$Jq/Ab6L6yPpGbPmyt5tC1e5uO81fP4YBLAow4LHPRgVtLjU8rcK7C','2022-10-13 18:09:22','2022-10-13 18:09:22','260845299','jane.doe');
@@ -20,21 +21,24 @@ CREATE TABLE `Course` (
   `courseDesc` text NOT NULL,
   `term` varchar(8) NOT NULL,
   `year` varchar(4) NOT NULL,
-  `courseNumber` varchar(8) PRIMARY KEY NOT NULL ,
+  `courseNumber` varchar(8) NOT NULL ,
   `courseInstructor` varchar(40) NOT NULL,
-  CONSTRAINT courseInstructor_ForeignKey
-   FOREIGN KEY (courseInstructor) REFERENCES `User` (`email`)
+  PRIMARY KEY (`courseNumber`, `term`, `year`),
+  CONSTRAINT CourseInstructor_ForeignKey
+   FOREIGN KEY (`courseInstructor`) REFERENCES REFERENCES `User` (`email`) ON UPDATE CASCADE
 );
 INSERT INTO Course VALUES('Principles of Web Development','The course discusses the major principles, algorithms, languages and technologies that underlie web development. Students receive practical hands-on experience through a project.','Fall','2022','COMP 250','joseph@comp307.com');
 INSERT INTO Course VALUES('Honours Project in Computer Science and Biology','One-semester research project applying computational approaches to a biological problem. The project is (co)-supervised by a professor in Computer Science and/or Biology or related fields.','Winter','2023','COMP 402','jane@comp307.com');
 CREATE TABLE `Professor` (
-  `professor` varchar(40) PRIMARY KEY NOT NULL,
+  `professor` varchar(40) NOT NULL,
   `faculty` varchar(30) NOT NULL,
   `department` varchar(30) NOT NULL,
   `course` varchar(10) NOT NULL,
-  CONSTRAINT courseNumber_ForeignKey
-   FOREIGN KEY (course) REFERENCES `Course` (`courseNumber`),
-   FOREIGN KEY (`professor`) REFERENCES `User` (`email`)
+  PRIMARY KEY (`professor`),
+  CONSTRAINT CourseNumber_ForeignKey
+    FOREIGN KEY (`course`) REFERENCES `Course` (`courseNumber`) ON UPDATE CASCADE,
+  CONSTRAINT ProfName_ForeignKey
+   FOREIGN KEY (`professor`) REFERENCES `User` (`email`) ON UPDATE CASCADE
 );
 INSERT INTO Professor VALUES('joseph@comp307.com','Science','Computer Science','COMP 250');
 INSERT INTO Professor VALUES('jane@comp307.com','Science','Computer Science','COMP 402');
@@ -42,7 +46,7 @@ INSERT INTO Professor VALUES('jane@comp307.com','Science','Computer Science','CO
 CREATE TABLE `UserType` (
   `idx` int(11) NOT NULL,
   `userType` varchar(9) NOT NULL,
-  PRIMARY KEY (`idx`, `userType`)
+  PRIMARY KEY (`idx`)
 );
 INSERT INTO UserType VALUES(1,'student');
 INSERT INTO UserType VALUES(2,'professor');
@@ -53,19 +57,26 @@ INSERT INTO UserType VALUES(5,'sysop');
 CREATE TABLE `User_UserType` (
   `userId` varchar(40) NOT NULL,
   `userTypeId` int(11) NOT NULL,
-  PRIMARY KEY ('userId','userTypeId'),
-  CONSTRAINT userusertype_ForeignKey
-   FOREIGN KEY (`userId`) REFERENCES `User` (`email`) ON DELETE RESTRICT
+  PRIMARY KEY(
+     `userId`,
+     `userTypeId`
+  ),
+  CONSTRAINT User_ForeignKey
+   FOREIGN KEY (`userId`) REFERENCES `User` (`email`) ON UPDATE CASCADE,
+  CONSTRAINT UserType_ForeignKey
+  FOREIGN KEY (`userTypeId`) REFERENCES `UserType` (`idx`) ON UPDATE CASCADE
 );
 
 
 
 
 CREATE TABLE `Student_Course` (
-  `studentId` varchar(40) PRIMARY KEY NOT NULL,
+  `studentId` varchar(40) NOT NULL,
   `courseId` varchar(10) NOT NULL,
-  CONSTRAINT studentCourse_ForeignKey
-   FOREIGN KEY (`courseId`) REFERENCES `Course` (`courseNumber`)
+  CONSTRAINT Student_ForeignKey
+    FOREIGN KEY (`studentId`) REFERENCES `User` (`email`) ON UPDATE CASCADE,
+  CONSTRAINT Course_ForeignKey
+    FOREIGN KEY (`courseId`) REFERENCES `Course` (`courseNumber`) ON UPDATE CASCADE
 );
 
 
@@ -93,7 +104,11 @@ CREATE TABLE `OfficeHours` (
   `location` varchar(100) NOT NULL,
   `responsibilities` varchar(500) NOT NULL,
   `position` varchar(100) NOT NULL,
-  PRIMARY KEY ("email","course","term","year","day","start_time", "end_time")
+  PRIMARY KEY (`email`,`course`,`term`,`year`,`day`,`start_time`,`end_time`),
+  CONSTRAINT OfficeHours_ForeignKey
+    FOREIGN KEY (`email`) REFERENCES `User` (`email`) ON UPDATE CASCADE,
+  CONSTRAINT OfficeHours_Course_ForeignKey
+    FOREIGN KEY (`course`) REFERENCES `Course` (`courseNumber`) ON UPDATE CASCADE
 );
 
 CREATE TABLE `TA` (
@@ -201,7 +216,13 @@ CREATE TABLE `message` (
   `time` varchar(30) NOT NULL,
   `message` varchar(1000) NOT NULL,
   `tag` varchar(30),
-  PRIMARY KEY ("course","term","year","user","time"),
+  PRIMARY KEY(
+     `course`,
+     `term`,
+     `year`,
+     `user`,
+     `time`
+   ),
   CONSTRAINT message_ForeignKey
    FOREIGN KEY (`course`, `term`, `year`) REFERENCES `Course` (`courseNumber`,`term`, `year`)
 );
