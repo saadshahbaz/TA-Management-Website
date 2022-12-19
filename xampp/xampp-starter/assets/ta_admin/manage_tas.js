@@ -60,6 +60,9 @@ function populateTaTable(request)
 
 function getTaAccounts() 
 {
+    document.getElementById('removeFilter').hidden = true;
+    var taform = document.getElementById("get-ta-values");
+    taform.reset();
     try {
         const req = new XMLHttpRequest();
         req.open("GET", './get_TAs.php', true);
