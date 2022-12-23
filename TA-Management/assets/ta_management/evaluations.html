@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TA Management - TA Admin</title>
+    <link href="dashboard.css" rel="stylesheet" />
+    <link rel="icon" href="../media/favicon.ico" type="image/ico">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+
+  <body>
+    <script src="./ta_management.js"></script>
+    <script src="../dashboard/createSelection.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <div class="container">
+      <nav class="navbar">
+        <!-- Header -->
+        <div class="container-fluid">
+          <!-- Logo and User Role  -->
+          <div class="d-flex align-items-center">
+            <a href="../dashboard/dashboard.html" class="navbar-brand">
+              <img
+                src="../media/mcgill_logo.png"
+                style="width: 14rem; height: auto"
+                
+                alt="mcgill-logo"
+              />
+              </a>
+            <select class="custom-select" id="custom-select-options" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" >
+              <option value="" selected disabled>Select...</option>
+            </select>
+          </div>
+          <!-- Logout -->
+          <div>
+            <button
+              type="button"
+              class="btn btn-link"
+              onclick="window.location.replace('../logout/logout.html')"
+            >
+              <i class="fa fa-sign-out" style="font-size: 24px"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a
+            class="nav-item nav-link"
+            id="nav-performance-tab"
+            data-toggle="tab"
+            href="#nav-performance"
+            role="tab"
+            >TA Performance Log</a
+          >
+          <a
+            class="nav-item nav-link"
+            data-toggle="tab"
+            id="nav-wishlist-tab"
+            href="#nav-wishlist"
+            role="tab"
+            >TA Wishlist</a
+          >
+          <a
+          class="nav-item nav-link"
+          data-toggle="tab"
+          id="nav-ed-tab"
+          href="#nav-ed-stats"
+          role="tab"
+          >Ed Statistics</a
+        >
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <br />
+        <!-- Performance Log-->
+        <div class="tab-pane fade" id="nav-performance" role="tabpanel">
+            <br />
+          <div>
+            <!-- Add  -->
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <form
+                id="performanceForm"
+                action="javascript:saveTAPerformanceLog()"
+                method="post"
+              >
+                <div class="modal-header">
+                  <h3 class="modal-title">Add Performance Log</h3>
+                </div>
+
+                <div class="modal-body">
+                  <div id="prof-form-modal">
+                    <p style="color:rgb(237, 27, 47);" id="performance-log-selection">Course Selected: Name Of Course</p>
+
+                    <!-- <input class="form-control" placeholder="First Name" type="text"  name="ta-firstName" /><br />
+                  <input class="form-control" placeholder="Last Name" type="text" name="ta-lastName" /><br /> -->
+
+                      <!-- Course Number -->
+                      <select class="form-control" id="ta-current-select-performance" name="ta-current-select" required >
+                        <option value="" selected disabled> Select a TA... </option>
+                      
+                      </select ><br />
+                    <!-- Terms -->
+                  <br>
+  
+                  <textarea rows="4" cols="50" maxlength ="499" placeholder="Comments on the TA..." id="performace-msg" required ></textarea><br><br>
+                    <!-- Year -->
+                      <br />
+
+
+                    <div id="ta-error-msg-cont"></div>
+                  </div>
+
+                <div class="modal-footer">
+                  <input
+                    type="submit"
+                    class="btn btn-danger"
+                    data-dismiss="modal"
+                    value="Save"
+                  />
+                </div>
+              </form>
+              </div>
+            </div>
+            
+          </div>
+          <div id="performance-table">
+          </div>
+            <!-- Add Professors -->
+            <br />
+            <br />
+
+            <br />
+
+            <!-- Display TAs -->
+          </div>
+        </div>
+
+        <!-- Wishlist -->
+
+
+        <div class="tab-pane fade" id="nav-wishlist" role="tabpanel">
+          <div>
+            <!-- Add  -->
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <form
+                id="wishlistForm"
+                action="javascript:saveTaToWishList()"
+                method="post"
+              >
+                <div class="modal-header">
+                  <h3 class="modal-title">Add TA to Wishlist</h3>
+                </div>
+  
+                <div class="modal-body">
+                  <div id="prof-form-modal">
+                    <p style="color:rgb(237, 27, 47);"  id="wishlist-log-selection">Course Selected: Name Of Course</p>
+  
+                    <!-- <input class="form-control" placeholder="First Name" type="text"  name="ta-firstName" /><br />
+                  <input class="form-control" placeholder="Last Name" type="text" name="ta-lastName" /><br /> -->
+  
+                      <!-- Course Number -->
+                      <select class="form-control" id="ta-current-select" name="ta-current-select" required >
+                        <option value="" selected disabled> Select a TA... </option>
+                      
+                      </select ><br />
+                    <!-- Terms -->
+                  <br>
+  
+                  <!-- <textarea rows="4" cols="50" maxlength ="499" placeholder="How was your experience with the TA?" id="feedback-msg"></textarea><br><br> -->
+                    <!-- Year -->
+                      <br />
+  
+  
+                    <div id="ta-error-msg-cont"></div>
+                  </div>
+  
+                <div class="modal-footer">
+                  <input
+                    type="submit"
+                    class="btn btn-danger"
+                    data-dismiss="modal"
+                    value="Save"
+                  />
+  
+  
+                </div>
+              </form>
+  
+              </div>
+  
+            </div>
+            <p id="ifuser" style=
+            "color: rgb(237, 27, 47);display:flex;
+            justify-content: center;
+            align-items: center;"></p>
+          </div>
+        </div>
+      </div>
+      <div id="wishlist-table">
+      </div>
+
+              <!-- ED Stats -->
+      <div class="tab-pane fade " id="nav-ed-stats" role="tabpanel">
+        <div>
+          <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-toggle="modal"
+          data-target="#import-ed-stats"
+        >
+          <i class="fa fa-download"></i>
+          Import Ed Stats
+        </button>
+            <div
+              class="modal fade"
+              id="import-ed-stats"
+              tabindex="-1"
+              role="dialog"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <form
+                    id="upload-ta-form"
+                    action="javascript:importMultipleTAs()"
+                    method="post"
+                  >
+                    <div class="modal-header">
+                      <h3 class="modal-title">Import Ed Stats</h3>
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <i class="fa fa-close"></i>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                    <p style="color:rgb(167, 37, 48);">Please upload the Ed Stats File</p>
+                      <input id="ta-cohort-upload-csv" type="file" required />
+                    </div>
+                    <div class="modal-footer">
+                      <input
+                        type="button"
+                        class="btn btn-light"
+                        data-dismiss="modal"
+                        value="Cancel"
+                      />
+                      <input type="submit" class="btn btn-light" onclick="importEdStats()" data-dismiss="modal" value="Save" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <br /><br />
+          <!-- Add  -->
+          <div class="container d-flex flex-row">
+            <div class="row">
+              <div class="col-auto mr-auto">
+                <h2 id="title">Ed Statistics</h2>
+              </div>
+            </div>
+            </div>
+          <br />
+          <div id="ed-table"></div>
+        
+        </div>
+      </div>
+    </div>
+    <script>
+      function loadExistingData() {
+        checkUser();
+        // getCourses();
+        // getAccounts();
+      }
+      document.onload = loadExistingData();
+    </script>
+  </body>
+</html>

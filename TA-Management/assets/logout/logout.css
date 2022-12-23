@@ -1,0 +1,205 @@
+.logout {
+    height: 100vh;
+    background-image: url("../media/landing_background.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+    /* width: 100%; */
+    margin: 0;
+    padding: 0;
+    overflow: scroll;
+}
+
+.login-error {
+    color: red;
+}
+  
+.form-inner {
+    height: 50%;
+    width: 100%;
+    min-width: 400px;
+    background-color:rgb(255, 255, 255, 0.8);
+    
+}
+
+form {
+    display: block;
+    position: relative;
+    height: 50%;
+}
+
+form .form-inner {
+    position: relative;
+    display: block;
+    padding: 30px;
+    z-index: 2;
+}
+
+form .form-inner p {
+    color: black;
+    font-size: 13px;
+}
+
+form .form-inner input[type="submit"],
+.welcome button {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 3px;
+  background-color: rgba(246, 35, 28, 0.6);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.welcome {
+  width: 100%;
+  height: 100%;
+  padding: 15px 30px;
+}
+
+.welcome h2 {
+  color: #888;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .logo {
+    height: 68px;
+  }
+  
+  .login {
+    height: 30px;
+  }
+  
+  
+  input,
+  button {
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+  }
+  
+  .form-group input {
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+  }
+  
+  .sign-in-button {
+    margin-top: 30px;
+  }
+  
+  .sign-in-button input {
+    width: 100px;
+    font-size: 12px;
+  }
+  
+  .links {
+    color:red;
+    text-decoration: none;
+  }
+  
+  form {
+    display: block;
+    position: relative;
+  }
+  
+  form .form-inner {
+    position: relative;
+    display: block;
+    padding: 30px;
+    z-index: 2;
+  }
+  
+  form .form-inner p {
+    color: black;
+    font-size: 13px;
+  }
+  
+  p.top {
+    margin-top: 40px;
+    margin-bottom: 25px;
+  }
+  
+  p.bottom {
+    margin-top: 15px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 13px;
+    padding-bottom: 5px;
+  }
+  
+  form .form-inner .form-group {
+    display: block;
+    width: 300px;
+    margin-bottom: 10px;
+  }
+  
+  form .form-inner .form-group input {
+    display: block;
+    width: 100%;
+    line-height: 1em;
+    font-size: 13px;
+    padding: 10px 15px;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+  }
+  
+  form .form-inner input[type="submit"],
+  .welcome button {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 3px;
+    background-color: #2769cb;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .welcome {
+    width: 100%;
+    padding: 15px 30px;
+  }
+  
+  .welcome h2 {
+    color: #888;
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+  .content {
+    height: 50%;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+  }
+  p{
+    color:white;
+  }
+  .welcome .info{
+    width: 100%;background-color: rgba(246, 35, 28, 0.6);padding: 10%;border-style: solid;border-color: white;border-width: 5px;margin-bottom: 20%;
+  }
+  .head_name{
+    color: white;
+  }
+  .welcome .roles{
+    width: 100%; display:block;
+            position: relative;align-items: center; align-self: center;margin: 5%;
+  }
+  .welcome .banner{
+    width: 100%; display:inline-block;
+          position: relative;background-color: rgba(246, 35, 28, 0.6); padding: 5%;
+  }
+  .logout .title{
+    color: white; text-align: center;
+  }
+  

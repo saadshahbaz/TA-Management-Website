@@ -1,0 +1,235 @@
+*{
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+   
+}
+
+.contentSection{
+    color: #8d99ae;
+    padding: 120px 40px 40px;
+   
+}
+
+.basic-nav-dropdown {
+    color: #151b26 !important;
+    font-weight: bold;
+  }
+
+.contentSection *{
+  color: #111;
+}
+
+@media screen and (max-width: 950px) {
+    .contentSection{
+        width: 90%;
+        padding-left: 5%;
+        padding-right: 5%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+.option{
+    float: left;
+    display: block;
+    cursor: context-menu;
+    padding: 20px;
+    font-family: 'Open sans', sans-serif;
+    font-size: 30;
+    background-color: white;
+    margin: 15px;
+    transition-timing-function: ease;
+    -webkit-box-shadow: 0px 0px 14px -1px rgba(0,0,0,0.3); 
+    box-shadow: 0px 0px 14px -1px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.option:hover{
+    transform: scale(1.1);
+}
+
+.welcomeMessage{
+    font-family: 'Raleway', sans-serif;
+    font-size: 30px;
+    padding-bottom: 25px;   
+}
+
+.title{
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    color: rgb(167, 37, 48);
+    padding: 10px;
+    font-weight: 600;
+}
+
+.section{
+    display: inline-block;
+    padding: 20px;
+    margin: 10px;
+    margin-top: 15em;
+    background-color: rgb(237, 27, 47);
+    border-radius: 15px;
+    /* background: rgb(141,153,174); */
+    /* background: linear-gradient(167deg, rgba(141,153,174,0.4009978991596639) 25%, rgba(141,153,174,0.5858718487394958) 80%); */
+}
+
+*{
+    font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
+    color: black;
+}
+
+main {
+    padding: 120px 80px 80px;
+    background-color: white;
+    font-size: 16px;
+}
+
+#title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 35px;
+}
+
+table {
+    width: 100%;
+}
+
+table, th, tr, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.bi-arrow-return-left {
+    color: black !important;
+}
+
+#error-msg-cont {
+    color: red !important;
+    font-size: 16px;
+}
+
+.error {
+    color: red !important;  
+}
+
+.style-button {
+    font-size: 16px !important; 
+    border: none;
+    border-radius: 15px;
+    background-color: #c8d7f0;
+    padding: 15px;
+}
+
+.style-button:hover {
+    background-color: #8d99ae;
+}
+
+#filter-label {
+    margin-left: 25px;
+    margin-right: 10px;
+}
+
+#filter-cat, #filter-criteria {
+    height: 50px;
+    border: 1px solid gray;
+    border-radius: 15px;
+}
+
+input {
+    font-size: 16px !important;
+    border: 1px solid gray;
+    border-radius: 15px;
+    padding: 10px;
+    color: black;
+}
+
+#filter-labels {
+    width: 20%;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.formAlignment {
+    float: left;
+    margin-left: 10px;
+    
+}
+
+.red-label {
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    color: rgb(167, 37, 48);
+    font-weight: 600 !important;
+    padding-right: 10px;
+}
+
+form, #student-id-div, #courses-div, #password-div {
+    font-family: 'Raleway', sans-serif;
+    color: rgb(167, 37, 48);
+    font-size: 18px;
+} 
+
+label {
+    font-weight: normal;
+    font-family: 'Raleway', sans-serif;
+}
+
+.editBtn {
+    padding: 10px;
+    background-color: #c8d7f0;
+    border: none;
+    float: none;
+    width: 100%;
+    border-radius: 15px;
+    margin: 10px;
+
+}
+
+.ta_report_float {
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    color:rgb(167, 37, 48);
+}
+
+@media screen and (max-width: 750px) {
+    [class*="col-"] {
+        width: 100%;
+      }
+}
+
+  
+
+@media only screen and (min-width: 650px) {
+    /* For tablets: */
+    .col-s-1 {width: 8.33%;}
+    .col-s-2 {width: 16.66%;}
+    .col-s-3 {width: 25%;}
+    .col-s-4 {width: 33.33%;}
+    .col-s-5 {width: 41.66%;}
+    .col-s-6 {width: 50%;}
+    .col-s-7 {width: 58.33%;}
+    .col-s-8 {width: 66.66%;}
+    .col-s-9 {width: 75%;}
+    .col-s-10 {width: 83.33%;}
+    .col-s-11 {width: 91.66%;}
+    .col-s-12 {width: 100%;}
+  }
+  @media only screen and (min-width: 900px) {
+    /* For desktop: */
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+  }
+
+
+
