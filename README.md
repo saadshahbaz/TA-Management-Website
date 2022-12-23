@@ -94,3 +94,8 @@ Landing & Login, Logout, Register, TA Management (Select Course, Channel, Office
 
 ##### Doruk Taktakoglu: 
 Sysop Tasks
+
+
+<br><br><br>
+
+#### Please note that all the code written in the files is for an assignment, and all rights belongs to Saad Shahbaz, Saumyaa Verma and Doruk Taktakoglu. Copying or using the code for an assignment is not allowed and I take no responsibility for any plagiarism or any other issues that you might run into.
