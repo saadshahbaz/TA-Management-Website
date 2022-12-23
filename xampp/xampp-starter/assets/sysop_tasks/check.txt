@@ -1,7 +1,0 @@
-To do list:
-management of user accounts(create, add, delete) (for students, tas, profs, ta admin)
-import courses and profs from csv and manually.
-only course and user stuff remaining
-
-
-
